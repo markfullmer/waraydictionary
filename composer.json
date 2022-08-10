@@ -1,0 +1,19 @@
+{
+    "name": "markfullmer/waraydictionary",
+    "description": "A corpus generated dictionary",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Markfullmer\\Waraydictionary\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mark Fullmer",
+            "email": "mfullmer@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

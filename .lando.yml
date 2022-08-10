@@ -1,0 +1,17 @@
+name: waray-dictionary
+recipe: lamp
+config:
+  webroot: public_html
+services:
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database
+      - source_database
+  appserver:
+    type: php:8.0
+    via: apache
+    version: 2.4
+    webroot: public_html
+  source_database:
+    type: mysql
