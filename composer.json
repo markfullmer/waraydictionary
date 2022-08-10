@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Markfullmer\\Waraydictionary\\": "src/"
+            "markfullmer\\waraydictionary\\": "src/"
         }
     },
     "authors": [
@@ -14,6 +14,8 @@
             "email": "mfullmer@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {}
+    "minimum-stability": "dev",
+    "require": {
+        "tlr/html-table-builder": "dev-master"
+    }
 }
