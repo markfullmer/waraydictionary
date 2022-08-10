@@ -62,11 +62,9 @@ select:hover {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #660000), color-stop(1, #660000));
   background: -moz-linear-gradient(center top, #660000 5%, #660000 100%);
 }
-
 a {
   color: #aa4400;
 }
-
 nav a {
   text-decoration: none;
   color: white;
@@ -77,29 +75,24 @@ nav a {
 nav a:hover {
   color: #e8e8e8;
 }
-
 nav ul li a:hover {
   background: white;
   color: #660000;
   border-radius: 5px 5px 0 0;
 }
-
 nav ul li .dropdown {
   display: block;
 }
-
 nav ul li ul a {
   display: block;
   background: white;
   color: #660000;
 }
-
 nav ul li ul a:hover {
   display: block;
   background: #e8e8e8;
   color: #660000;
 }
-
 nav ul li:hover>ul,
 nav ul li:focus>ul {
   display: block;
@@ -109,26 +102,21 @@ nav ul li:focus>ul {
   padding: .3em;
   border: 1px solid #b8b8b8;
 }
-
 nav ul li:hover>ul li,
 nav ul li:focus>ul li {
   display: block;
 }
-
 nav ul li ul li:hover {
   background: #e8e8e8;
 }
-
 nav form {
   float: right;
 }
-
 aside,
 footer {
   padding: 1%;
   float: left;
 }
-
 article {
   background: white;
   line-height: 1.3em;
@@ -137,7 +125,6 @@ article {
   float: left;
   margin: 2% 1% 0% 4%;
 }
-
 footer {
   font-size: 0.8em;
   display: block;
@@ -316,3 +303,24 @@ a.skip-nav:focus {
   opacity: .8;
 }
 
+form {
+  margin-top: 2rem;
+}
+form label {
+  display: block;
+}
+form input, form textarea {
+  margin-bottom: 1rem;
+}
+form input {
+  margin-left: 1rem;
+}
+form textarea {
+  width: 100%;
+}
+
+form details {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid black;
+}

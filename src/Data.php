@@ -15,11 +15,9 @@ class Data {
     'tr.ir.imp.apl' => 'p',
   ];
 
-  /**
-   * Get available parts of speech
-   */
-  public static function getPosOptions() {
-    return array_keys(self::$pos);
+  public static function clean($string) {
+    $string = (string) $string;
+    return strip_tags($string);
   }
 
   /**

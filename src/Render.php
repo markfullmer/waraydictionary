@@ -34,6 +34,9 @@ class Render {
     if (Db::isAuthenticated()) {
       $output[] = '<a href="/edit.php?id=' . $row['id'] . '">edit</a>';
     }
+    if (!empty($row['root'])) {
+      $output[] = '<br /><em>Root form: ' . $row['root'] . '</em>';
+    }
     $output[] = '<ul style="list-style-type:none;">';
     if (!empty($row['one_ex'])) {
       $output[] = '<li><strong>1</strong> ' . $row['one_ex'] . '</li>';
@@ -46,5 +49,19 @@ class Render {
     }
     $output[] = '</ul>';
     return implode(" ", $output);
+  }
+
+  /**
+   * Get available parts of speech
+   */
+  public static function getPosOptions(string $selected) {
+    foreach (array_keys(Data::$pos) as $label) {
+      $output .= '<option value="' . $label . '"';
+      if ($label === $selected) {
+        $output .= ' selected="selected"';
+      }
+      $output .= '>' . $label . '</option>';
+    }
+    return $output;
   }
 }
