@@ -8,6 +8,9 @@ require '../vendor/autoload.php';
 require './includes/head.php';
 require '../variables.php';
 
+// Uncomment to wipe all data.
+// Db::install();
+
 $search = '';
 $match = FALSE;
 $message = '';
