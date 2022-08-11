@@ -32,7 +32,7 @@ if (isset($_REQUEST['word'])) {
     <div class="col-md-8 blurb-box">
       <h2>Waray Dictionary</h2>
       <form action="./index.php" method="post">
-        <input type="text" id="search" name="word" value="<?php echo $search; ?>" placeholder="Search by word or root form"><br>
+        <input type="text" id="search" name="word" value="<?php echo $search; ?>" placeholder="Search for a word"><br>
         <input type="submit" name="search" value="Find"></form>
         <?php echo $message; ?>
       </form>

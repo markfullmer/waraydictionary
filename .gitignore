@@ -3,3 +3,4 @@ variables.php
 /vendor/
 *.sql
 *.sql.*
+public_html/phperror_log
