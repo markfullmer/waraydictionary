@@ -1,20 +1,24 @@
 <?php
+session_start();
 
 use markfullmer\waraydictionary\Db;
 use markfullmer\waraydictionary\Render;
 
 require '../vendor/autoload.php';
-
-require './includes/head.php';
 require '../variables.php';
+
+if (!Db::isAuthenticated()) {
+  header('Location: /index.php');
+  die();
+}
+require './includes/head.php';
 
 if (isset($_REQUEST['id'])) {
   if ($_REQUEST['id'] !== 'add') {
     $id = (int) $_REQUEST['id'];
     $type = 'Edit';
     $word = Db::getWord($id);
-  }
-  else {
+  } else {
     $id = 'add';
     $type = 'Add';
     foreach (Db::$keys as $key) {
@@ -27,15 +31,16 @@ if (isset($_REQUEST['id'])) {
   <div class="row justify-content-center">
     <div class="col-md-8">
       <?php
-        if ($id !== 'add' && !isset($word)) {
-          echo 'There was an error retrieving the requested word. Please report this to the maintainers.';
-          die();
-        }
-        if (isset($_GET['update'])) {
-          echo 'Word successfully updated.';
-        }
+      if ($id !== 'add' && !isset($word)) {
+        echo 'There was an error retrieving the requested word. Please report this to the maintainers.';
+        die();
+      }
+      if (isset($_GET['update'])) {
+        echo 'Word successfully updated.';
+      }
       ?>
       <h1><?php echo $type; ?> word <em><?php echo $word['word']; ?></em></h1>
+      Pronunciation marks: ʔ Á á É é Í í Ó ó Ú ú
       <form method="post" action="save.php">
         <input type="hidden" name="id" value="<?php echo $id; ?>" />
         <label>Word*<input type="text" name="word" value="<?php echo $word['word']; ?>" required /></label>

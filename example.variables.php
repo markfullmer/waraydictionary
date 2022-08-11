@@ -4,6 +4,9 @@ $dbhost = "database";
 $dbuser = "lamp";
 $dbpass = "lamp";
 $dbname = "lamp";
+$username = '';
+// This uses the md5() algorithm, plus a salt.
+$password = '';
 
 try {
   $db = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);

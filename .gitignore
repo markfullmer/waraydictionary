@@ -1,3 +1,4 @@
 
 variables.php
 /vendor/
+*.sql.*

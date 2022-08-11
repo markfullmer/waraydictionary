@@ -1,25 +1,28 @@
 <?php
+session_start();
 
 use markfullmer\waraydictionary\Db;
-use markfullmer\waraydictionary\Data;
 use markfullmer\waraydictionary\Render;
 
 require '../vendor/autoload.php';
-
 require './includes/head.php';
 require '../variables.php';
 
 $search = '';
 $match = FALSE;
 $message = '';
-if (isset($_POST['word'])) {
-  $match = Db::search($_POST['word']);
+$cognates = FALSE;
+if (isset($_REQUEST['word'])) {
+  $match = Db::search($_REQUEST['word']);
+  $cognates = Db::searchRoots($_REQUEST['word']);
   $search = isset($match['word']) ? $match['word'] : '';
   if ($search === '') {
     $message = 'Not found in the dictionary.';
   }
 }
 ?>
+
+
 
 <div class="container">
   <div class="row">
@@ -32,7 +35,10 @@ if (isset($_POST['word'])) {
       </form>
       <?php
         if (isset($match['word'])) {
-          echo Render::buildEntry($match);
+          echo Render::entry($match);
+        }
+        if (!empty($cognates)) {
+          echo 'Words with same root: ' . Render::cognates($cognates);
         }
       ?>
     </div>
@@ -46,7 +52,7 @@ if (isset($_POST['word'])) {
     $db = Db::connect();
     $words = $db->query("SELECT * FROM word ORDER BY word ASC")->fetchAll();
     foreach ($words as $row) {
-      echo '<div class="row"><div class="col">' . Render::buildEntry($row) . '</div></div>';
+      echo '<div class="row"><div class="col">' . Render::entry($row) . '</div></div>';
     }
     ?>
 

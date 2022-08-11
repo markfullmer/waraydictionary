@@ -34,7 +34,7 @@ class Db {
       $db = new \PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
       // set the PDO error mode to exception
       $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-      $db->query('SET NAMES "utf8"')->execute();
+      $db->query('SET NAMES "utf8mb4" COLLATE utf8mb4_unicode_ci')->execute();
     }
     catch (\PDOException $e) {
       echo "Connection failed: " . $e->getMessage();
@@ -56,7 +56,7 @@ class Db {
   public static function search(string $string) {
     $clean = Data::clean($string);
     $db = self::connect();
-    $stmt = $db->prepare("SELECT * FROM word WHERE word=:string");
+    $stmt = $db->prepare("SELECT * FROM word WHERE BINARY word=:string");
     $stmt->execute(['string' => $clean]);
     $row = $stmt->fetch();
     if (isset($row['word'])) {
@@ -65,11 +65,35 @@ class Db {
     return FALSE;
   }
 
+  public static function searchRoots(string $string) {
+    $clean = Data::clean($string);
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT * FROM word WHERE BINARY word=:string");
+    $stmt->execute(['string' => $clean]);
+    $row = $stmt->fetch();
+    if (!isset($row['root'])) {
+      return FALSE;
+    }
+    $stmt = $db->prepare("SELECT * FROM word WHERE NOT BINARY word=:string AND `root`=:root");
+    $stmt->execute([
+      'string' => $clean,
+      'root' => $row['root'],
+    ]);
+    $rows = $stmt->fetchAll();
+    if (isset($rows)) {
+      return $rows;
+    }
+    return FALSE;
+  }
+
   /**
    * Whether or not there is an active authentication.
    */
   public static function isAuthenticated() {
-    return TRUE;
+    if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] === TRUE) {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   public static function insertWord($post) {
@@ -136,7 +160,7 @@ class Db {
       `root` varchar(64) NOT NULL,
       `pronunciation` varchar(64) NOT NULL,
       PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;";
     foreach ($sql as $table) {
       try {
         $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

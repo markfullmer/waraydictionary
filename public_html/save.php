@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 use markfullmer\waraydictionary\Db;
 
