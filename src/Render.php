@@ -69,7 +69,7 @@ class Render {
         $output[] = '<em>(' . $row['three_def'] . ')</em> ';
       }
       if (!empty($row['two_ex'])) {
-        $output[] = self::highlight($row['two_ex'], $row['word']);
+        $output[] = self::highlight($row['three_ex'], $row['word']);
       }
       $output[] = '</li>';
     }
