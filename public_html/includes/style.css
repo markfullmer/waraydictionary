@@ -149,8 +149,11 @@ aside h2 {
   font-weight: 700;
 }
 
-.highlight {
-  border-bottom: 2px solid red;
+.highlight, u {
+  background-color: inherit;
+  text-decoration: underline;
+  text-decoration-color: red;
+  -webkit-text-decoration-color: red;
 }
 
 .subtext {

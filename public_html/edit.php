@@ -45,11 +45,11 @@ if (isset($_REQUEST['id'])) {
         <input type="hidden" name="id" value="<?php echo $id; ?>" />
         <label>Word*<input type="text" name="word" value="<?php echo $word['word']; ?>" required /></label>
         <label>Pronunciation<input type="text" name="pronunciation" value="<?php echo $word['pronunciation']; ?>" /></label>
-        <label>Meaning<input type="text" name="one_def" value="<?php echo $word['one_def']; ?>" /></label>
         <label>Root<input type="text" name="root" value="<?php echo $word['root']; ?>" /></label>
         <label>Synonyms<input type="text" name="synonym" value="<?php echo $word['synonym']; ?>" /><em>Separate multiple synonyms with a comma (e.g., yakan,busa)</em></label>
         <details open>
           <summary>Usage 1</summary>
+          <label>Meaning<input type="text" name="one_def" value="<?php echo $word['one_def']; ?>" /></label>
           <label>Part of speech <select name="one_pos">
               <?php echo Render::getPosOptions($word['one_pos']); ?>
             </select>
@@ -59,6 +59,7 @@ if (isset($_REQUEST['id'])) {
         </details>
         <details open>
           <summary>Usage 2</summary>
+          <label>Meaning<input type="text" name="two_def" value="<?php echo $word['two_def']; ?>" /></label>
           <label>Part of speech <select name="two_pos">
               <?php echo Render::getPosOptions($word['two_pos']); ?>
             </select>
@@ -68,6 +69,7 @@ if (isset($_REQUEST['id'])) {
         </details>
         <details open>
           <summary>Usage 3</summary>
+          <label>Meaning<input type="text" name="three_def" value="<?php echo $word['three_def']; ?>" /></label>
           <label>Part of speech <select name="three_pos">
               <?php echo Render::getPosOptions($word['three_pos']); ?>
             </select>

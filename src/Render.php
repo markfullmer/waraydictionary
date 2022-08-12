@@ -33,7 +33,7 @@ class Render {
     if (!empty($row['three_pos'])) {
       $output[] = '<strong><3' . Data::getPosShort($row['three_pos']) . '></strong>';
     }
-    if (!empty($row['one_def'])) {
+    if (!empty($row['one_def']) && empty($row['two_def'])) {
       $output[] = '<em>' . Data::getPosShort($row['one_def']) . '</em>';
     }
     if (!empty($row['root'])) {
@@ -44,19 +44,47 @@ class Render {
     }
     $output[] = '<ul style="list-style-type:none;">';
     if (!empty($row['one_ex'])) {
-      $output[] = '<li><strong>1</strong> ' . $row['one_ex'] . '</li>';
+      $output[] = '<li><strong>1</strong> ';
+      if (!empty($row['one_def']) && !empty($row['two_def'])) {
+        $output[] = '<em>' . $row['one_def'] . '</em> ';
+      }
+      $output[] = self::highlight($row['one_ex'], $row['word']) . '</li>';
     }
-    if (!empty($row['two_ex'])) {
-      $output[] = '<li><strong>2</strong> ' . $row['two_ex'] . '</li>';
+    if (!empty($row['two_ex']) || !empty($row['two_def'])) {
+      $output[] = '<li><strong>2</strong> ';
+      if (!empty($row['two_def'])) {
+        $output[] = '<em>' . $row['two_def'] . '</em> ';
+      }
+      if (!empty($row['two_ex'])) {
+        $output[] = self::highlight($row['two_ex'], $row['word']);
+      }
+      $output[] = '</li>';
     }
-    if (!empty($row['three_ex'])) {
-      $output[] = '<li><strong>3</strong> ' . $row['three_ex'] . '</li>';
+    if (!empty($row['three_ex']) || !empty($row['three_def'])) {
+      $output[] = '<li><strong>3</strong> ';
+      if (!empty($row['three_def'])) {
+        $output[] = '<em>' . $row['three_def'] . '</em> ';
+      }
+      if (!empty($row['two_ex'])) {
+        $output[] = self::highlight($row['two_ex'], $row['word']);
+      }
+      $output[] = '</li>';
     }
     if (!empty($row['synonym'])) {
       $output[] = '<li>[see also <strong>' . $row['synonym'] . '</strong>]</li>';
     }
     $output[] = '</ul>';
     return implode(" ", $output);
+  }
+
+  /**
+   * Highlight a word in context
+   */
+  public static function highlight($context, $word) {
+    // Find the word/root, allowing for spaces,hyphens or word-characters adjacent
+    $re = '/(\s|\w+-|-|\w+)(' . $word . ')(\s|-?\w+|.|,)/mi';
+    $subst = '<u>$0</u>';
+    return preg_replace($re, $subst, $context);
   }
 
   /**
