@@ -43,7 +43,7 @@ class Render {
       $output[] = '<a href="/edit.php?id=' . $row['id'] . '">edit</a>';
     }
     $output[] = '<ul style="list-style-type:none;">';
-    if (!empty($row['one_ex'] || !empty($row['one_def']))) {
+    if (!empty($row['one_ex'])) {
       $output[] = '<li><strong>1</strong> ';
       if (!empty($row['one_def']) && !empty($row['two_def'])) {
         $output[] = '<em>(' . $row['one_def'] . ')</em> ';
