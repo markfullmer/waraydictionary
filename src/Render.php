@@ -43,17 +43,20 @@ class Render {
       $output[] = '<a href="/edit.php?id=' . $row['id'] . '">edit</a>';
     }
     $output[] = '<ul style="list-style-type:none;">';
-    if (!empty($row['one_ex'])) {
+    if (!empty($row['one_ex'] || !empty($row['one_def']))) {
       $output[] = '<li><strong>1</strong> ';
       if (!empty($row['one_def']) && !empty($row['two_def'])) {
-        $output[] = '<em>' . $row['one_def'] . '</em> ';
+        $output[] = '<em>(' . $row['one_def'] . ')</em> ';
       }
-      $output[] = self::highlight($row['one_ex'], $row['word']) . '</li>';
+      if (!empty($row['one_ex'])) {
+        $output[] = self::highlight($row['one_ex'], $row['word']);
+      }
+      $output[] = '</li>';
     }
     if (!empty($row['two_ex']) || !empty($row['two_def'])) {
       $output[] = '<li><strong>2</strong> ';
       if (!empty($row['two_def'])) {
-        $output[] = '<em>' . $row['two_def'] . '</em> ';
+        $output[] = '<em>(' . $row['two_def'] . ')</em> ';
       }
       if (!empty($row['two_ex'])) {
         $output[] = self::highlight($row['two_ex'], $row['word']);
@@ -63,7 +66,7 @@ class Render {
     if (!empty($row['three_ex']) || !empty($row['three_def'])) {
       $output[] = '<li><strong>3</strong> ';
       if (!empty($row['three_def'])) {
-        $output[] = '<em>' . $row['three_def'] . '</em> ';
+        $output[] = '<em>(' . $row['three_def'] . ')</em> ';
       }
       if (!empty($row['two_ex'])) {
         $output[] = self::highlight($row['two_ex'], $row['word']);
