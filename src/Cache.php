@@ -28,8 +28,8 @@ class Cache {
 
   public static function get(string $string) {
     $db = self::connect();
-    $stmt = $db->prepare("SELECT * FROM `cache` WHERE `id`=:string");
-    $stmt->execute([':string' => $string]);
+    $stmt = $db->prepare("SELECT * FROM `cache` WHERE BINARY `id`=:string");
+    $stmt->execute([':string' => bin2hex($string)]);
     $row = $stmt->fetch();
     if (!empty($row['value'])) {
       return $row['value'];
@@ -41,9 +41,10 @@ class Cache {
     $db = self::connect();
     $sql = "INSERT INTO cache(id,value) VALUES (:id,:value)";
     $stmt = $db->prepare($sql);
+    $id = bin2hex($id);
     $stmt->bindParam(':id', $id, \PDO::PARAM_STR);
     $stmt->bindParam(':value', $value, \PDO::PARAM_STR);
-    $stmt->execute(); 
+    $stmt->execute();
   }
 
   public static function clear() {
