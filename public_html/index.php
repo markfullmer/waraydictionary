@@ -29,20 +29,24 @@ if (isset($_REQUEST['word'])) {
 
 <div class="container">
   <div class="row">
+    <?php echo Render::messages($_GET); ?>
+  </div>
+  <div class="row">
     <div class="col-md-8 blurb-box">
       <h2>Waray Dictionary</h2>
       <form action="./index.php" method="post">
         <input type="text" id="search" name="word" value="<?php echo $search; ?>" placeholder="Search for a word"><br>
-        <input type="submit" name="search" value="Find"></form>
-        <?php echo $message; ?>
+        <input type="submit" name="search" value="Find">
+      </form>
+      <?php echo $message; ?>
       </form>
       <?php
-        if (isset($match['word'])) {
-          echo Render::entry($match);
-        }
-        if (!empty($cognates)) {
-          echo 'Words with same root: ' . Render::cognates($cognates);
-        }
+      if (isset($match['word'])) {
+        echo Render::entry($match);
+      }
+      if (!empty($cognates)) {
+        echo 'Words with same root: ' . Render::cognates($cognates);
+      }
       ?>
     </div>
   </div>
@@ -59,8 +63,7 @@ if (isset($_REQUEST['word'])) {
     }
     if (!Db::isAuthenticated() && $cache = Cache::get('glossary_' . $letter)) {
       $glossary = unserialize($cache);
-    }
-    else {
+    } else {
       $words = Db::getGlossary($letter);
       $glossary = [];
       $glossary[] = '<h2>' . $letter . '</h3>';

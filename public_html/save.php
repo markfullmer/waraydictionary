@@ -20,4 +20,4 @@ else {
 }
 Cache::clear();
 
-header('Location: /edit.php?update=1&id=' . $result);
+header('Location: /index.php?update=1&id=' . $result);

@@ -204,8 +204,8 @@ aside h2 {
 
 .blurb-box {
   color: #505050;
-  padding: 3%;
-  margin: 0% 0% 3% 0%;
+  padding: 1rem;
+  margin: 1rem 0 1rem 0;
 }
 
 .message {
@@ -306,9 +306,6 @@ a.skip-nav:focus {
   opacity: .8;
 }
 
-form {
-  margin-top: 2rem;
-}
 form label {
   display: block;
 }

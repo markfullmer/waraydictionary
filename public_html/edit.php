@@ -8,7 +8,7 @@ require '../vendor/autoload.php';
 require '../variables.php';
 
 if (!Db::isAuthenticated()) {
-  header('Location: /index.php');
+  header('Location: /index.php?auth=fail');
   die();
 }
 require './includes/head.php';
@@ -35,9 +35,6 @@ if (isset($_REQUEST['id'])) {
       if ($id !== 'add' && !isset($word)) {
         echo 'There was an error retrieving the requested word. Please report this to the maintainers.';
         die();
-      }
-      if (isset($_GET['update'])) {
-        echo 'Word successfully updated.';
       }
       ?>
       <h1><?php echo $type; ?> word <em><?php echo $word['word']; ?></em></h1>

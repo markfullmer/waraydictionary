@@ -10,6 +10,22 @@ use markfullmer\waraydictionary\Db;
  */
 class Render {
 
+  public static function messages($get) {
+    $output = [];
+    if (isset($get['auth'])) {
+      if ($get['auth'] === 'fail') {
+        $output[] = 'Unauthorized access.';
+      }
+    }
+    if (isset($get['update'])) {
+      $word = Db::getWord($get['id']);
+      $output[] = 'The word "' . $word['word'] . '" was successfully updated.';
+    }
+    if (!empty($output)) {
+      return '<div class="blurb-box">' . implode($output, '<br />') . '</div>';
+    }
+  }
+
   /**
    * Display a dictionary entry.
    */
@@ -18,6 +34,7 @@ class Render {
     $output[] = '<strong>' . $row['word'] . '</strong>';
     if (Db::isAuthenticated()) {
       $output[] = '<a href="/edit.php?id=' . $row['id'] . '">edit</a>';
+      $output[] = '&nbsp;&nbsp;&nbsp;<a href="/delete.php?id=' . $row['id'] . '">delete</a>';
     }
     if (!empty($row['pronunciation'])) {
       $output[] = '[' . $row['pronunciation'] . ']';

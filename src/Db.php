@@ -53,6 +53,13 @@ class Db {
     return FALSE;
   }
 
+  public static function deleteWord(int $id) {
+    $db = self::connect();
+    $sql = "DELETE FROM word WHERE id=?";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$id]);
+  }
+
   public static function search(string $string) {
     $clean = Data::clean($string);
     $db = self::connect();
