@@ -71,7 +71,7 @@ class Db {
     }
     $first_letter = mb_strtolower(mb_substr(Data::clean($string), 0, 1));
     $db = self::connect();
-    $stmt = $db->prepare("SELECT * FROM `word` WHERE `word` LIKE BINARY :string");
+    $stmt = $db->prepare("SELECT * FROM `word` WHERE `word` LIKE BINARY :string ORDER BY `word` ASC");
     $stmt->execute([':string' => $first_letter . '%']);
     $rows = $stmt->fetchAll();
     if (!empty($rows)) {
