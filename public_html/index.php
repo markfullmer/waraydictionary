@@ -2,6 +2,7 @@
 session_start();
 
 use markfullmer\waraydictionary\Db;
+use markfullmer\waraydictionary\Data;
 use markfullmer\waraydictionary\Render;
 
 require '../vendor/autoload.php';
@@ -24,8 +25,6 @@ if (isset($_REQUEST['word'])) {
   }
 }
 ?>
-
-
 
 <div class="container">
   <div class="row">
@@ -52,11 +51,17 @@ if (isset($_REQUEST['word'])) {
     if (Db::isAuthenticated()) {
       echo '<h6><a href="/edit.php?id=add">Add new word</a></h6>';
     }
-    $db = Db::connect();
-    $words = $db->query("SELECT * FROM word ORDER BY word ASC")->fetchAll();
+    echo Render::glossary();
+    $letter = 'A';
+    if (isset($_REQUEST['glossary']) && in_array($_REQUEST['glossary'], Data::$glossary)) {
+      $letter = $_REQUEST['glossary'];
+    }
+    $words = Db::getGlossary($letter);
+    echo '<h2>' . $letter . '</h3>';
     foreach ($words as $row) {
       echo '<div class="row"><div class="col">' . Render::entry($row) . '</div></div>';
     }
+
     ?>
 
 </div>

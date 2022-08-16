@@ -65,13 +65,28 @@ class Db {
     return FALSE;
   }
 
+  public static function getGlossary(string $string) {
+    if (!in_array($string, Data::$glossary)) {
+      return [];
+    }
+    $first_letter = mb_strtolower(mb_substr(Data::clean($string), 0, 1));
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT * FROM `word` WHERE `word` LIKE BINARY :string");
+    $stmt->execute([':string' => $first_letter . '%']);
+    $rows = $stmt->fetchAll();
+    if (!empty($rows)) {
+      return $rows;
+    }
+    return [];
+  }
+
   public static function searchRoots(string $string) {
     $clean = Data::clean($string);
     $db = self::connect();
     $stmt = $db->prepare("SELECT * FROM word WHERE BINARY word=:string");
     $stmt->execute(['string' => $clean]);
     $row = $stmt->fetch();
-    if (!isset($row['root'])) {
+    if ($row['root'] === '') {
       return FALSE;
     }
     $stmt = $db->prepare("SELECT * FROM word WHERE NOT BINARY word=:string AND `root`=:root");

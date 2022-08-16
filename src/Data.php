@@ -26,6 +26,8 @@ class Data {
     'int.r.ctrl.' => 'p',
     ];
 
+  public static $glossary = ['A', 'Á', 'B', 'C', 'D', 'E', 'É', 'F', 'G', 'H', 'I', 'Í', 'J', 'K', 'L', 'M', 'N', 'O', 'Ó', 'P', 'Q', 'R', 'S', 'T', 'U', 'Ú', 'V', 'W', 'X', 'Y', 'Z'];
+
   public static function clean($string) {
     $string = (string) $string;
     return strip_tags($string);
@@ -38,7 +40,7 @@ class Data {
     if (isset(self::$pos[$long])) {
       return self::$pos[$long];
     }
-    return $long;
+    return mb_substr($long, 0, 1);
   }
 
 }

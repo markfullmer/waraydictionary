@@ -18,7 +18,8 @@ if (isset($_REQUEST['id'])) {
     $id = (int) $_REQUEST['id'];
     $type = 'Edit';
     $word = Db::getWord($id);
-  } else {
+  }
+  else {
     $id = 'add';
     $type = 'Add';
     foreach (Db::$keys as $key) {

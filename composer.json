@@ -14,5 +14,8 @@
             "email": "mfullmer@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "league/csv": "^9.7"
+    }
 }

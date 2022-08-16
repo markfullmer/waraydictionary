@@ -16,6 +16,9 @@ class Render {
   public static function entry($row) {
     $output = [];
     $output[] = '<strong>' . $row['word'] . '</strong>';
+    if (Db::isAuthenticated()) {
+      $output[] = '<a href="/edit.php?id=' . $row['id'] . '">edit</a>';
+    }
     if (!empty($row['pronunciation'])) {
       $output[] = '[' . $row['pronunciation'] . ']';
     }
@@ -24,7 +27,7 @@ class Render {
         $output[] = '<strong><1' . Data::getPosShort($row['one_pos']) . '></strong>';
       }
       else {
-        $output[] = '<em>' . $row['one_pos'] . '</em>';
+        $output[] = '&lt;' . $row['one_pos'] . '&gt;';
       }
     }
     if (!empty($row['two_pos'])) {
@@ -34,17 +37,17 @@ class Render {
       $output[] = '<strong><3' . Data::getPosShort($row['three_pos']) . '></strong>';
     }
     if (!empty($row['one_def']) && empty($row['two_def'])) {
-      $output[] = '<em>' . Data::getPosShort($row['one_def']) . '</em>';
+      $output[] = '<em>' . $row['one_def'] . '</em>';
     }
     if (!empty($row['root'])) {
       $output[] = '[root <strong>' . $row['root'] . '</strong>]';
     }
-    if (Db::isAuthenticated()) {
-      $output[] = '<a href="/edit.php?id=' . $row['id'] . '">edit</a>';
-    }
     $output[] = '<ul style="list-style-type:none;">';
     if (!empty($row['one_ex'])) {
-      $output[] = '<li><strong>1</strong> ';
+      $output[] = '<li>';
+      if (!empty($row['two_ex'] || !empty($row['two_pos']))) {
+        $output[] = '<strong>1</strong>';
+      }
       if (!empty($row['one_def']) && !empty($row['two_def'])) {
         $output[] = '<em>(' . $row['one_def'] . ')</em> ';
       }
@@ -80,12 +83,25 @@ class Render {
     return implode(" ", $output);
   }
 
+  public static function glossary() {
+    $output = [];
+    foreach (Data::$glossary as $key) {
+      $output[] = '<a href="./index.php?glossary=' . $key . '">' . $key . '</a> | ';
+    }
+    return implode($output);
+  }
+
   /**
-   * Highlight a word in context
+   * Highlight a word in context.
    */
   public static function highlight($context, $word) {
+    // For words with 3 or more letters...
     // Find the word/root, allowing for spaces,hyphens or word-characters adjacent
-    $re = '/(\s|\w+-|-|\w+)(' . $word . ')(\s|-?\w+|.|,)/mi';
+    $re = '/(\s|\w+-|-|\w+|^)(' . $word . ')(\s|-?\w+|\.,\?)/mi';
+    if (mb_strlen($word, 'UTF-8') < 4) {
+      // For words of three letters or less, do not include other letters.
+      $re = '/(\s|-|^)(' . $word . ')(\s|-|\.|,|\?)/mi';
+    }
     $subst = '<u>$0</u>';
     return preg_replace($re, $subst, $context);
   }

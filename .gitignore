@@ -4,3 +4,6 @@ variables.php
 *.sql
 *.sql.*
 public_html/php_errorlog
+*.csv
+*.xls
+*.xlsx
