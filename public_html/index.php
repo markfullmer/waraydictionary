@@ -57,7 +57,7 @@ if (isset($_REQUEST['word'])) {
     if (isset($_REQUEST['glossary']) && in_array($_REQUEST['glossary'], Data::$glossary)) {
       $letter = $_REQUEST['glossary'];
     }
-    if ($cache = Cache::get('glossary_' . $letter)) {
+    if (!Db::isAuthenticated() && $cache = Cache::get('glossary_' . $letter)) {
       $glossary = unserialize($cache);
     }
     else {
@@ -67,7 +67,9 @@ if (isset($_REQUEST['word'])) {
       foreach ($words as $row) {
         $glossary[] = '<div class="row"><div class="col">' . Render::entry($row) . '</div></div>';
       }
-      Cache::set('glossary_' . $letter, serialize($glossary));
+      if (!Db::isAuthenticated()) {
+        Cache::set('glossary_' . $letter, serialize($glossary));
+      }
     }
     echo implode($glossary);
     ?>
