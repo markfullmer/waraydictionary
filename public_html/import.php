@@ -8,12 +8,13 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use markfullmer\waraydictionary\Db;
 
-// die();
+die();
 
-$csv = Reader::createFromPath('../import.csv', 'r');
+$csv = Reader::createFromPath('../extracted-data.csv', 'r');
+$csv->setEnclosure('"');
 $csv->setHeaderOffset(0); //set the CSV header offset
 
-$stmt = Statement::create();
+$stmt = Statement::create()->limit(28000);
 
 $db = Db::connect();
 //Our SQL statement. This will empty / truncate the table "videos"

@@ -2,6 +2,7 @@
 session_start();
 
 use markfullmer\waraydictionary\Db;
+use markfullmer\waraydictionary\Cache;
 
 require '../vendor/autoload.php';
 require '../variables.php';
@@ -17,4 +18,6 @@ if ($_POST['id'] === 'add') {
 else {
   $result = Db::updateWord($_POST);
 }
+Cache::clear();
+
 header('Location: /edit.php?update=1&id=' . $result);

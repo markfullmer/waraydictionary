@@ -3,6 +3,7 @@ session_start();
 
 use markfullmer\waraydictionary\Db;
 use markfullmer\waraydictionary\Data;
+use markfullmer\waraydictionary\Cache;
 use markfullmer\waraydictionary\Render;
 
 require '../vendor/autoload.php';
@@ -56,12 +57,19 @@ if (isset($_REQUEST['word'])) {
     if (isset($_REQUEST['glossary']) && in_array($_REQUEST['glossary'], Data::$glossary)) {
       $letter = $_REQUEST['glossary'];
     }
-    $words = Db::getGlossary($letter);
-    echo '<h2>' . $letter . '</h3>';
-    foreach ($words as $row) {
-      echo '<div class="row"><div class="col">' . Render::entry($row) . '</div></div>';
+    if ($cache = Cache::get('glossary_' . $letter)) {
+      $glossary = unserialize($cache);
     }
-
+    else {
+      $words = Db::getGlossary($letter);
+      $glossary = [];
+      $glossary[] = '<h2>' . $letter . '</h3>';
+      foreach ($words as $row) {
+        $glossary[] = '<div class="row"><div class="col">' . Render::entry($row) . '</div></div>';
+      }
+      Cache::set('glossary_' . $letter, serialize($glossary));
+    }
+    echo implode($glossary);
     ?>
 
 </div>
