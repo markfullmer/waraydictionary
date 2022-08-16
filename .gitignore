@@ -1,6 +1,8 @@
 
 variables.php
 /vendor/
+/logs/
+/webstats/
 *.sql
 *.sql.*
 public_html/php_errorlog
