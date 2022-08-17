@@ -22,7 +22,7 @@ class Render {
       $output[] = 'The word "' . $word['word'] . '" was successfully updated.';
     }
     if (!empty($output)) {
-      return '<div class="blurb-box">' . implode($output, '<br />') . '</div>';
+      return '<div class="blurb-box">' . implode('<br />', $output) . '</div>';
     }
   }
 

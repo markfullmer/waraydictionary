@@ -2,6 +2,7 @@ name: waray-dictionary
 recipe: lamp
 config:
   webroot: public_html
+  php: 7.4
 services:
   phpmyadmin:
     type: phpmyadmin
