@@ -74,9 +74,10 @@ if (isset($_REQUEST['word'])) {
       echo 'Sort alphabetically | <a href="./index.php?sort=count&glossary=' . $letter .'">Sort by frequency</a>';
     }
     echo '</p>';
-    if ($cache && !Db::isAuthenticated() && $cache = Cache::get('glossary_' . $letter . $sort)) {
-      $glossary = unserialize($cache);
-    } else {
+    if ($cache && !Db::isAuthenticated() && $cache_data = Cache::get('glossary_' . $letter . $sort)) {
+      $glossary = unserialize($cache_data);
+    }
+    else {
       $words = Db::getGlossary($letter, $sort);
       $glossary = [];
       $glossary[] = '<h2>' . $letter . '</h3>';
