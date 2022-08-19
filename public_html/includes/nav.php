@@ -9,8 +9,7 @@ use markfullmer\waraydictionary\Render;
     <ul>
       <li class="active"><a href="./index.php">Home</a></li>
       <li><a href="https://corporaproject.org/index.php?type=article&amp;id=1">About</a></li>
-      <li><a href="https://corporaproject.org/index.php?type=word&amp;id=all">Words</a></li>
-      <li><a href="https://corporaproject.org/index.php?type=text&amp;id=all">Texts</a></li>
+      <li><a href="./parts-of-speech.php">Parts of Speech</a></li>
       <li><a href="https://corporaproject.org/index.php?type=article&amp;id=3">Contact</a></li>
       <li><a href="https://corporaproject.org/index.php?type=article&amp;id=8">Help</a></li>
 

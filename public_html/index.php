@@ -56,22 +56,35 @@ if (isset($_REQUEST['word'])) {
     if (Db::isAuthenticated()) {
       echo '<h6><a href="/edit.php?id=add">Add new word</a></h6>';
     }
-    echo Render::glossary();
     $letter = 'A';
+    $sort = 'word';
+    if (isset($_REQUEST['sort']) && $_REQUEST['sort'] === 'count') {
+      $sort = 'count';
+    }
+    echo '<p>';
+    echo Render::glossary($sort);
+    echo '</p>';
     if (isset($_REQUEST['glossary']) && in_array($_REQUEST['glossary'], Data::$glossary)) {
       $letter = $_REQUEST['glossary'];
     }
-    if (!Db::isAuthenticated() && $cache = Cache::get('glossary_' . $letter)) {
+    if ($sort === 'count') {
+      echo '<a href="./index.php?glossary=' . $letter . '">Sort alphabetically</a> | Sort by frequency';
+    }
+    else {
+      echo 'Sort alphabetically | <a href="./index.php?sort=count&glossary=' . $letter .'">Sort by frequency</a>';
+    }
+    echo '</p>';
+    if ($cache && !Db::isAuthenticated() && $cache = Cache::get('glossary_' . $letter . $sort)) {
       $glossary = unserialize($cache);
     } else {
-      $words = Db::getGlossary($letter);
+      $words = Db::getGlossary($letter, $sort);
       $glossary = [];
       $glossary[] = '<h2>' . $letter . '</h3>';
       foreach ($words as $row) {
         $glossary[] = '<div class="row"><div class="col">' . Render::entry($row) . '</div></div>';
       }
-      if (!Db::isAuthenticated()) {
-        Cache::set('glossary_' . $letter, serialize($glossary));
+      if (!Db::isAuthenticated() && $cache) {
+        Cache::set('glossary_' . $letter . $sort, serialize($glossary));
       }
     }
     echo implode($glossary);
