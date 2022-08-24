@@ -60,6 +60,29 @@ class Db {
     $stmt->execute([$id]);
   }
 
+  public static function getPosByWord(string $word) {
+    $clean = Data::clean($word);
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT one_pos FROM word WHERE BINARY word=:string");
+    $stmt->execute(['string' => $clean]);
+    $row = $stmt->fetch();
+    if (isset($row['one_pos'])) {
+      return $row['one_pos'];
+    }
+    return FALSE;
+  }
+
+  public static function getUncategorized(int $limitcount = 100) {
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT * FROM word WHERE one_ex <> '' AND one_pos = '' LIMIT 100");
+    $stmt->execute();
+    $rows = $stmt->fetchAll();
+    if (isset($rows[0])) {
+      return $rows;
+    }
+    return FALSE;
+  }
+
   public static function search(string $string) {
     $clean = Data::clean($string);
     $db = self::connect();
