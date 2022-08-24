@@ -12,9 +12,9 @@ use markfullmer\waraydictionary\Data;
 class SpeechTagger {
 
   public static $tests = [
-    ['dalagan', 'Waray hunong an dalagan.', 'r', 'Suffix is "an"'],
+    ['dalagan', 'Waray hunong an dalagan.', 'r', 'Word ends sentence; Suffix is "an"'],
     ['Nagtadong', 'Nagtadong hiya ngan nag-asawa', 'p', 'Prefix is "nag"; Starts sentence'],
-    ['magpapatron', 'Min, magpapatron na', 'p', 'Prefix is "mag"'],
+    ['magpapatron', 'Min, magpapatron na', 'p', 'Followed by "na"; Prefix is "mag"'],
     ['tadong', 'han iya tadong nga balan', 'm', 'Followed by "nga"'],
     ['nánay', 'Hala gad bga baga nauli na an nánay nakadungog hia ngatitinuok an iya anak', 'r', 'Preceded by noun marker "an"'],
     ['nanay', 'Amo adto hi nanay nagmata', 'r', 'Preceded by "hi"'],
