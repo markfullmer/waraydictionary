@@ -11,7 +11,7 @@ use markfullmer\waraydictionary\MorphoSyntaxData;
  */
 class SpeechTagger {
 
-  public $attributes = [
+  public array $attributes = [
     'id' => '?',
     'count' => [
       'm' => 0,
@@ -23,19 +23,20 @@ class SpeechTagger {
   ];
 
   public function identify($word, $sentence, $recur = TRUE) {
+    $clause = self::getClause($word, $sentence);
     // Words of 3 characters or less are unreliable. Skip.
     if (mb_strlen($word) < 4) {
       return $this->attributes;
     }
     // Apply scoring.
-    $this->evaluateLocation($word, $sentence);
-    $this->evaluatePreceder($word, $sentence);
-    $this->evaluateFollower($word, $sentence);
+    $this->evaluateLocation($word, $clause);
+    $this->evaluatePreceder($word, $clause);
+    $this->evaluateFollower($word, $clause);
     $this->evaluatePrefix($word);
     $this->evaluateSuffix($word);
     if ($recur) {
-      $this->evaluateAdjacentPos($word, $sentence, 'preceding');
-      $this->evaluateAdjacentPos($word, $sentence, 'following');
+      $this->evaluateAdjacentPos($word, $clause, 'preceding');
+      $this->evaluateAdjacentPos($word, $clause, 'following');
     }
     $this->applyScoring();
   }
@@ -82,7 +83,7 @@ class SpeechTagger {
     else {
       $this->attributes['id'] = end($collapsed);
     }
-    $this->attributes['score'] = implode('<br />', $scores);
+    $this->attributes['score'] = implode(' ', $scores);
   }
 
   public function evaluateLocation($word, $sentence) {
@@ -157,17 +158,18 @@ class SpeechTagger {
     else {
       // The word isn't in the dictionary. Try to guess the part of speech.
       // Second parameter is to prevent infinite recursion.
-      $pos = $this->identify($adjacent, $sentence, FALSE);
-      if ($pos) {
-        if ($pos === 'p') {
+      $pos = new SpeechTagger();
+      $pos->identify($adjacent, $sentence, FALSE);
+      switch ($pos->attributes['id']) {
+        case 'p':
           $this->attributes['rules'][] = 'Predicative is ' . $position . ' target word';
-        }
-        elseif ($pos === 'm') {
+          break;
+        case 'm':
           $this->attributes['rules'][] = 'Modificative is ' . $position . ' target word';
-        }
-        elseif ($pos === 'r') {
+          break;
+        case 'r':
           $this->attributes['rules'][] = 'Referential is ' . $position . ' target word';
-        }
+          break;
       }
     }
   }
@@ -230,6 +232,30 @@ class SpeechTagger {
     }
   }
 
+  public static function getClause($word, $sentence) {
+    $characters = mb_str_split($sentence);
+    $segment = '';
+    $clauses = [];
+    foreach ($characters as $c) {
+      if (in_array($c, [',', ';', '.'])) {
+        $clauses[] = $segment;
+        $segment = '';
+      }
+      else {
+        $segment .= $c;
+      }
+    }
+    if (empty($clauses)) {
+      $clauses[] = $segment;
+    }
+    foreach ($clauses as $clause) {
+      if (strpos($clause, $word) !== FALSE) {
+        return $clause;
+      }
+    }
+    return $sentence;
+  }
+
   /**
    * Split on word boundaries.
    */
@@ -250,7 +276,7 @@ class SpeechTagger {
         }
       }
       $token = mb_strtolower(trim($token, $strip_chars));
-      if (in_array($token, ['la', 'pa', 'kun', 'ano', 'gad']) && $token !== end($tokens)) {
+      if (in_array($token, ['la', 'pa', 'kun', 'ano', 'gad', 'kay']) && $token !== end($tokens)) {
         continue;
       }
       if ($token) {
@@ -271,7 +297,7 @@ class SpeechTagger {
   public static function endsSentence($word, $sentence) {
     $tokens = self::tokenize($sentence);
     $end = end($tokens);
-    if ($end === mb_strtolower($word)) {
+    if ($end === strtolower($word)) {
       return TRUE;
     }
     return FALSE;

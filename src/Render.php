@@ -26,6 +26,33 @@ class Render {
     }
   }
 
+  public static function partOfSpeech(array $pos) {
+    $output = [];
+    switch ($pos['id']) {
+      case 'm':
+        $long = 'Modificative';
+        break;
+      case 'p':
+        $long = 'Predicative';
+        break;
+      case 'r':
+        $long = 'Referential';
+        break;
+      default:
+        $long = 'Indeterminable';
+        break;
+    }
+    $rules = '<ul>';
+    foreach ($pos['rules'] as $rule) {
+      $rules .= '<li>' . $rule . '</li>';
+    }
+    $rules .= '</ul>';
+    $output[] = '<strong>Identified part of speech in sentence:</strong> ' . $long;
+    $output[] = '<strong>Confidence:</strong> ' . $pos['score'];
+    $output[] = '<strong>Rationale:</strong> ' . $rules;
+    return implode('<br />', $output);
+  }
+
   /**
    * Display a dictionary entry.
    */

@@ -13,6 +13,7 @@ use markfullmer\waraydictionary\SpeechTagger;
 class PartOfSpeechTest {
 
   public static $tests = [
+    ['ninang', 'Ini  hi Mak-Mak kinanhi, an babayi ikakasal ha bulan han yana nga june, gin-iimbitar ak\' usa nga ninang, an upod hi Grace.', 'r', 'ninang at end of clause'],
     ['dalagan', 'Waray hunong an dalagan.', 'r', 'Word ends sentence; Suffix is "an"'],
     ['Nagtadong', 'Nagtadong hiya ngan nag-asawa', 'p', 'Prefix is "nag"; Starts sentence'],
     ['magpapatron', 'Min, magpapatron na', 'p', 'Followed by "na"; Prefix is "mag"'],
