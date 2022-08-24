@@ -74,7 +74,8 @@ class Db {
 
   public static function getUncategorized(int $limitcount = 100) {
     $db = self::connect();
-    $stmt = $db->prepare("SELECT * FROM word WHERE one_ex <> '' AND one_pos = '' LIMIT 100");
+    $stmt = $db->prepare("SELECT * FROM word WHERE one_ex <> '' AND one_pos = '' LIMIT :limitcount");
+    $stmt->bindValue(':limitcount', (int) $limitcount, \PDO::PARAM_INT);
     $stmt->execute();
     $rows = $stmt->fetchAll();
     if (isset($rows[0])) {
