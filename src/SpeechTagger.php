@@ -276,7 +276,7 @@ class SpeechTagger {
         }
       }
       $token = mb_strtolower(trim($token, $strip_chars));
-      if (in_array($token, ['la', 'pa', 'kun', 'ano', 'gad', 'kay']) && $token !== end($tokens)) {
+      if (in_array($token, ['la', 'pa', 'kun', 'ano', 'gad', 'kay', 'ngay-an', 'ngayan']) && $token !== end($tokens)) {
         continue;
       }
       if ($token) {

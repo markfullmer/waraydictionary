@@ -5,6 +5,7 @@ use markfullmer\waraydictionary\Data;
 use markfullmer\waraydictionary\Render;
 use markfullmer\waraydictionary\SpeechTagger;
 use markfullmer\waraydictionary\tests\PartOfSpeechTest;
+use markfullmer\waraydictionary\MorphoSyntaxData;
 
 require '../vendor/autoload.php';
 require '../variables.php';
@@ -27,43 +28,71 @@ $pos->identify($word, $sentence);
     <textarea name="sentence"><?php echo $sentence; ?></textarea>
     <input type="submit" name="search" value="Analyze">
   </form>
-<?php
-if (isset($pos->attributes['id'])) {
-  echo Render::partOfSpeech($pos->attributes);
-  echo '<strong>Location in sentence:</strong> ' . Render::highlight($sentence, $word) . '<br />';
-}
-echo '<br /><br />';
+  <?php
+  if (isset($pos->attributes['id'])) {
+    echo Render::partOfSpeech($pos->attributes);
+    echo '<strong>Location in sentence:</strong> ' . Render::highlight($sentence, $word) . '<br />';
+  }
+  ?>
+  <br />
+  <br />
+  <h3>Reference: Ragging of Verbal predicates</h3>
+  <table class="default">
+    <tr>
+      <th>Part of Speech</th>
+      <th>Example</th>
+    </tr>
+    <?php
+    foreach (Data::$partsOfSpeech as $part => $example) {
+      echo '<tr><td>' . $part . '</td><td>' . $example . '</td></tr>';
+    }
+    echo '</table>';
+    ?>
+    <br />
+    <br />
+    <h3>Methodology of the Waray Part of Speech Identifier</h3>
+    <p>This algorithm is based on principles outlined by Voltaire Oyzon in "A Corpus-based study of the morphosyntactic functions of Waray substantive lexical items" (2020). It uses a dictionary of known syntax (location in clause) and morphology (prefix, suffix) patterns in the Waray language to evaluate 23 rules, outlined below. It then applies a scoring system to estimate the likelihood of predicate (verb), referential (noun), or modificative (adjective) of the target word.</p>
 
-echo '<h2>Reference: Ragging of Verbal predicates</h2>';
-echo '<table class="default">';
-echo '<tr><th>Part of Speech</th><th>Example</th></tr>';
-foreach (Data::$partsOfSpeech as $part => $example) {
-  echo '<tr><td>' . $part . '</td><td>' . $example . '</td></tr>';
-}
-echo '</table>';
+    <p>Common modifiers (e.g., "la," "pa," "na," "gad", "ngay-an") are often inserted between substantive words that would indicate part of speech. Therefore, the algorithm ignores these when evaluating syntax. For example, it will parse "nauli na an nánay" as "nauli an nánay," and can identify that a pronoun ("na") is following the word "nauli".</p>
 
-echo '<h4>Baseline logic for part of speech algorithm</h4>';
-PartOfSpeechTest::test();
-// die();
-// $uncategorized = Db::getUncategorized(100);
-// $identified = 0;
-// $total = 0;
-// echo '<table class="default"><tr><th>Word</th><th>Prediction</th><th>Confidence</th><th>Sentence</th><th>Rules</th>';
-// foreach ($uncategorized as $row) {
-//   $pos = new SpeechTagger();
-//   $pos->identify($row['word'], $row['one_ex']);
-//   if ($pos->attributes['id'] !== '?') {
-//     $identified++;
-//   }
-//   $total++;
-//   $rules = '<ul>';
-//   foreach ($pos->attributes['rules'] as $rule) {
-//     $rules .= '<li>' . $rule . '</li>';
-//   }
-//   $rules .= '</ul>';
-//   echo '<tr><td>' . $row['word'] . '</td><td>' . $pos->attributes['id'] . '</td><td>' . $pos->attributes['score'] . '</td><td>' . Render::highlight($row['one_ex'], $row['word']) . '</td><td>' . $rules . '</td></tr>';
-// }
-// echo '</table>';
-// echo 'Comprehensivenss: ' . number_format($identified / $total * 100) . '%';
+    <p>For similar reasons, clausal beginnings ("kun", "kay", "ano") are ignored. For example, "Kun ano kadakó an butones sugad man an kadákó han ohales" will consider "kadakó" the beginning of the clause for the purposes of identifying part of speech.</p>
 
-echo '</div>';
+    <p>At present, this algorithm does not evaluate infixes, which are a common feature of Filipino languages (e.g., "palit" [buy] becomes "pumalit" [bought] with the infix "um"). In order for the algorithm to evaluate infixes, it would need a dictionary of Waray word roots. This effort is underway.</p>
+
+    <?php
+
+    echo '<table class="default"><tr><th>Rule</th><th>Weight</th></tr>';
+    foreach (MorphoSyntaxData::$rules as $rule => $scores) {
+      $score = '';
+      foreach ($scores as $p => $s) {
+        $score .= $p . ': ' . $s . ' points<br />';
+      }
+      echo '<tr><td>' . $rule . '</td><td>' . $score . '</td></tr>';
+    }
+    echo '</table>';
+
+    echo '<h4>Baseline tests for part of speech algorithm</h4>';
+    PartOfSpeechTest::test();
+    // die();
+    // $uncategorized = Db::getUncategorized(100);
+    // $identified = 0;
+    // $total = 0;
+    // echo '<table class="default"><tr><th>Word</th><th>Prediction</th><th>Confidence</th><th>Sentence</th><th>Rules</th>';
+    // foreach ($uncategorized as $row) {
+    //   $pos = new SpeechTagger();
+    //   $pos->identify($row['word'], $row['one_ex']);
+    //   if ($pos->attributes['id'] !== '?') {
+    //     $identified++;
+    //   }
+    //   $total++;
+    //   $rules = '<ul>';
+    //   foreach ($pos->attributes['rules'] as $rule) {
+    //     $rules .= '<li>' . $rule . '</li>';
+    //   }
+    //   $rules .= '</ul>';
+    //   echo '<tr><td>' . $row['word'] . '</td><td>' . $pos->attributes['id'] . '</td><td>' . $pos->attributes['score'] . '</td><td>' . Render::highlight($row['one_ex'], $row['word']) . '</td><td>' . $rules . '</td></tr>';
+    // }
+    // echo '</table>';
+    // echo 'Comprehensivenss: ' . number_format($identified / $total * 100) . '%';
+
+    echo '</div>';
