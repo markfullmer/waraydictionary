@@ -63,7 +63,7 @@ $pos->identify($word, $sentence);
 
     <p>A future planned enhancement is to add corpus similarity comparison to the algorithm: if a sample sentence can be found in the corpus that demonstrates sufficient similarlity (e.g., the adjacent words in the sample sentence are the same as in the evaluated sentence), the dictionary's part of speech can be calculated into the probability.</p>
 
-    <p>A caveat about part of speech tagging algorithms: they cannot 100% accurate. To give just one example from English, in the sentence "Working late into the night is draining," the word "working" functions as a referential. However, if the same clause is located in "Working late into the night, Mark was drained," now "working" functions as a predicative.</p>
+    <p>A caveat about part of speech tagging algorithms: they cannot be 100% accurate. To give just one example from English, in the sentence "Working late into the night is draining," the word "working" functions as a referential. However, if the same clause is located in "Working late into the night, Mark was drained," now "working" functions as a predicative.</p>
 
     <?php
 
