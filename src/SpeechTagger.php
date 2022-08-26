@@ -35,8 +35,8 @@ class SpeechTagger {
     $this->evaluatePrefix($word);
     $this->evaluateSuffix($word);
     if ($recur) {
-      $this->evaluateAdjacentPos($word, $clause, 'preceding');
-      $this->evaluateAdjacentPos($word, $clause, 'following');
+      $this->evaluateAdjacentPos($word, $clause, 'precedes');
+      $this->evaluateAdjacentPos($word, $clause, 'follows');
     }
     $this->applyScoring();
   }
@@ -47,7 +47,7 @@ class SpeechTagger {
         print_r('Rule "' . $rule . '" was not found.');
         die();
       }
-      foreach (MorphoSyntaxData::$rules[$rule] as $pos => $score) {
+      foreach (MorphoSyntaxData::$rules[$rule]['score'] as $pos => $score) {
         $this->attributes['count'][$pos] = $this->attributes['count'][$pos] + $score;
       }
     }
@@ -88,10 +88,10 @@ class SpeechTagger {
 
   public function evaluateLocation($word, $sentence) {
     if (self::beginsSentence($word, $sentence)) {
-      $this->attributes['rules'][] = 'Word begins clause';
+      $this->attributes['rules'][] = 'Target word begins clause';
     }
     if (self::endsSentence($word, $sentence)) {
-      $this->attributes['rules'][] = 'Word ends clause';
+      $this->attributes['rules'][] = 'Target word ends clause';
     }
   }
 
@@ -104,11 +104,11 @@ class SpeechTagger {
       $this->attributes['rules'][] = 'Preceding word suggests target is referential';
     }
     elseif (in_array($preceder, MorphoSyntaxData::$pronouns)) {
-      $this->attributes['rules'][] = 'Pronoun precedes word';
+      $this->attributes['rules'][] = 'Target word is preceded by a pronoun';
       // $confidence['r'] = $confidence['r'] + 2;
     }
     elseif ($preceder === 'nga') {
-      $this->attributes['rules'][] = 'Word is preceded by "nga"';
+      $this->attributes['rules'][] = 'Target word is preceded by "nga"';
     }
     if (in_array($preceder, MorphoSyntaxData::$highConfidenceModificativePreceder)) {
       $this->attributes['rules'][] = 'Preceding word likely indicates target is modificative';
@@ -125,15 +125,15 @@ class SpeechTagger {
       $this->attributes['rules'][] = 'Following word suggests target is predicative';
     }
     elseif (in_array($follower, MorphoSyntaxData::$pronouns)) {
-      $this->attributes['rules'][] = 'Word is followed by a pronoun';
+      $this->attributes['rules'][] = 'Target word is followed by a pronoun';
     }
     elseif ($follower === "nga") {
-      $this->attributes['rules'][] = 'Word is followed by "nga"';
+      $this->attributes['rules'][] = 'Target word is followed by "nga"';
     }
   }
 
-  public function evaluateAdjacentPos($word, $sentence, $position = 'preceding') {
-    if ($position === 'preceding') {
+  public function evaluateAdjacentPos($word, $sentence, $position = 'precedes') {
+    if ($position === 'precedes') {
       $adjacent = self::getPreceder($word, $sentence);
     }
     else {
@@ -146,13 +146,13 @@ class SpeechTagger {
     if ($adjacentPos = Db::getPosByWord($adjacent)) {
       $pos = Data::getPosShort($adjacentPos);
       if ($pos === 'p') {
-        $this->attributes['rules'][] = 'Predicative is ' . $position . ' target word';
+        $this->attributes['rules'][] = 'Predicative ' . $position . ' target word';
       }
       elseif ($pos === 'm') {
-        $this->attributes['rules'][] = 'Modificative is ' . $position . ' target word';
+        $this->attributes['rules'][] = 'Modificative ' . $position . ' target word';
       }
       elseif ($pos === 'r') {
-        $this->attributes['rules'][] = 'Referential is ' . $position . ' target word';
+        $this->attributes['rules'][] = 'Referential ' . $position . ' target word';
       }
     }
     else {
@@ -162,13 +162,13 @@ class SpeechTagger {
       $pos->identify($adjacent, $sentence, FALSE);
       switch ($pos->attributes['id']) {
         case 'p':
-          $this->attributes['rules'][] = 'Predicative is ' . $position . ' target word';
+          $this->attributes['rules'][] = 'Predicative ' . $position . ' target word';
           break;
         case 'm':
-          $this->attributes['rules'][] = 'Modificative is ' . $position . ' target word';
+          $this->attributes['rules'][] = 'Modificative ' . $position . ' target word';
           break;
         case 'r':
-          $this->attributes['rules'][] = 'Referential is ' . $position . ' target word';
+          $this->attributes['rules'][] = 'Referential ' . $position . ' target word';
           break;
       }
     }
@@ -276,7 +276,7 @@ class SpeechTagger {
         }
       }
       $token = mb_strtolower(trim($token, $strip_chars));
-      if (in_array($token, ['la', 'pa', 'kun', 'ano', 'gad', 'kay', 'ngay-an', 'ngayan']) && $token !== end($tokens)) {
+      if (in_array($token, MorphoSyntaxData::$fillers) && $token !== end($tokens)) {
         continue;
       }
       if ($token) {

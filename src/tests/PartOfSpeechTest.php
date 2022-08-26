@@ -3,8 +3,6 @@
 namespace markfullmer\waraydictionary\tests;
 
 use markfullmer\waraydictionary\Render;
-use markfullmer\waraydictionary\Db;
-use markfullmer\waraydictionary\Data;
 use markfullmer\waraydictionary\SpeechTagger;
 
 /**

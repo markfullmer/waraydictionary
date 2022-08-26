@@ -51,23 +51,25 @@ $pos->identify($word, $sentence);
     <br />
     <br />
     <h3>Methodology of the Waray Part of Speech Identifier</h3>
-    <p>This algorithm is based on principles outlined by Voltaire Oyzon in "A Corpus-based study of the morphosyntactic functions of Waray substantive lexical items" (2020). It uses a dictionary of known syntax (location in clause) and morphology (prefix, suffix) patterns in the Waray language to evaluate 23 rules, outlined below. It then applies a scoring system to estimate the likelihood of predicate (verb), referential (noun), or modificative (adjective) of the target word.</p>
+    <p>This algorithm is based on principles outlined by Voltaire Oyzon in "A Corpus-based study of the morphosyntactic functions of Waray substantive lexical items" (2020). It uses a dictionary of known syntax (location in clause) and morphology (prefix, suffix) patterns in the Waray language to evaluate 23 rules, outlined below. It then applies a scoring system to estimate the probability of predicate (verb), referential (noun), or modificative (adjective) of the target word.</p>
 
-    <p>Common modifiers (e.g., "la," "pa," "na," "gad", "ngay-an") are often inserted between substantive words that would indicate part of speech. Therefore, the algorithm ignores these when evaluating syntax. For example, it will parse "nauli na an nánay" as "nauli an nánay," and can identify that a pronoun ("na") is following the word "nauli".</p>
+    <p>Common modifiers (e.g., "la," "pa,", "gad", "ngay-an") are often inserted between substantive words that would indicate part of speech. Therefore, the algorithm ignores these when evaluating syntax. For example, it will parse "gin-aanak pa la hiya" as "gin-aanak hiya," and can identify that a pronoun ("hiya") is following the word "gin-aanak".</p>
 
     <p>For similar reasons, clausal beginnings ("kun", "kay", "ano") are ignored. For example, "Kun ano kadakó an butones sugad man an kadákó han ohales" will consider "kadakó" the beginning of the clause for the purposes of identifying part of speech.</p>
+
+    <p>The part of speech of adjacent words often indicates a word's likely part of speech. For example, a clause is less likely to have a predicate adjacent to another predicate, rathern than adjacent to a modifier or referential. The algorithm therefore evaluates the part of speech of adjacent words to predict the target word's part of speech. It achieves this in two ways: first, it checks the Waray dictionary for the adjacent word's part of speech; if the word's part of speech is not found in the dictionary, it then applies its own part-of-speech guessing algorithm to the adjacent word (the algorithm uses itself to improve its guess for the target word!). If it can establish a high probability of that word's part of speech, it then can apply 'adjacency' rules to the target word.</p>
 
     <p>At present, this algorithm does not evaluate infixes, which are a common feature of Filipino languages (e.g., "palit" [buy] becomes "pumalit" [bought] with the infix "um"). In order for the algorithm to evaluate infixes, it would need a dictionary of Waray word roots. This effort is underway.</p>
 
     <?php
 
-    echo '<table class="default"><tr><th>Rule</th><th>Weight</th></tr>';
-    foreach (MorphoSyntaxData::$rules as $rule => $scores) {
+    echo '<table class="default"><tr><th>Rule</th><th>Example (target word is underlined)</th><th>Weight</th></tr>';
+    foreach (MorphoSyntaxData::$rules as $rule => $value) {
       $score = '';
-      foreach ($scores as $p => $s) {
+      foreach ($value['score'] as $p => $s) {
         $score .= $p . ': ' . $s . ' points<br />';
       }
-      echo '<tr><td>' . $rule . '</td><td>' . $score . '</td></tr>';
+      echo '<tr><td>' . $rule . '</td><td>' . implode('<br />', $value['example']) . '</td><td>' . $score . '</td></tr>';
     }
     echo '</table>';
 

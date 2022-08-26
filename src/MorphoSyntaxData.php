@@ -5,121 +5,202 @@ namespace markfullmer\waraydictionary;
 class MorphoSyntaxData {
 
   public static $rules = [
-    'Predicative is preceding target word' => [
-      'm' => 3,
-      'r' => 3,
-      'p' => 0,
+    'Target word is preceded by a pronoun' => [
+      'score' => [
+        'm' => 0,
+        'r' => 2,
+        'p' => 0,
+      ],
+      'example' => ['...harayo kaupay han <strong>akon <u>gindakoan</u></strong>'],
     ],
-    'Modificative is preceding target word' => [
-      'm' => 0,
-      'r' => 3,
-      'p' => 3,
+    'Target word is followed by a pronoun' => [
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 1,
+      ],
+      'example' => ['<strong><u>Dinako</u> ako</strong> nga waray kag-anak'],
     ],
-    'Referential is preceding target word' => [
-      'm' => 3,
-      'r' => 0,
-      'p' => 3,
+    'Target word is preceded by "nga"' => [
+      'score' => [
+        'm' => 0,
+        'r' => 1,
+        'p' => 0,
+      ],
+      'example' => ['...makit-an it\' usa <strong>nga <u>burod</u></strong>'],
     ],
-    'Predicative is following target word' => [
-      'm' => 3,
-      'r' => 3,
-      'p' => 0,
+    'Target word is followed by "nga"' => [
+      'score' => [
+        'm' => 5,
+        'r' => 1,
+        'p' => 0,
+      ],
+      'example' => ['Nakabati ka na han <strong><u>burod</u> nga</strong> lalaki nga baboy?'],
     ],
-    'Modificative is following target word' => [
-      'm' => 0,
-      'r' => 3,
-      'p' => 3,
+    'Predicative precedes target word' => [
+      'score' => [
+        'm' => 3,
+        'r' => 3,
+        'p' => 0,
+      ],
+      'example' => ['Harayo na gud ngay-an an ak\' <strong>ginkaturungan <u>kagab-i</u></strong> nga salida'],
     ],
-    'Referential is following target word' => [
-      'm' => 3,
-      'r' => 0,
-      'p' => 3,
+    'Modificative precedes target word' => [
+      'score' => [
+        'm' => 0,
+        'r' => 3,
+        'p' => 3,
+      ],
+      'example' => ['<strong>Waray <u>palad</u></strong> nga maraut, waray palad nga maupay.'],
     ],
-    'Prefix likely indicates predicative' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 4,
+    'Referential precedes target word' => [
+      'score' => [
+        'm' => 3,
+        'r' => 0,
+        'p' => 3,
+      ],
+      'example' => ['Kay it\' <strong>babayi <u>nabuburod</u></strong> man;'],
     ],
-    'Prefix suggests predicative' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 1,
+    'Predicative follows target word' => [
+      'score' => [
+        'm' => 3,
+        'r' => 3,
+        'p' => 0,
+      ],
+      'example' => [''],
     ],
-    'Prefix suggests modificative' => [
-      'm' => 1,
-      'r' => 0,
-      'p' => 0,
+    'Modificative follows target word' => [
+      'score' => [
+        'm' => 0,
+        'r' => 3,
+        'p' => 3,
+      ],
+      'example' => [''],
     ],
-    'Suffix suggests predicative' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 1,
-    ],
-    'Suffix suggests modificative, less likely referential' => [
-      'm' => 2,
-      'r' => 1,
-      'p' => 0,
-    ],
-    'Suffix suggests referential' => [
-      'm' => 0,
-      'r' => 1,
-      'p' => 0,
+    'Referential follows target word' => [
+      'score' => [
+        'm' => 3,
+        'r' => 0,
+        'p' => 3,
+      ],
+      'example' => [''],
     ],
     'Following word likely indicates target is predicative' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 3,
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 3,
+      ],
+      'example' => ['Min, <strong><u>magpapatron</u> na</strong>'],
     ],
     'Following word suggests target is predicative' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 1,
-    ],
-    'Word is followed by a pronoun' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 1,
-    ],
-    'Word is followed by "nga"' => [
-      'm' => 5,
-      'r' => 1,
-      'p' => 0,
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 1,
+      ],
+      'example' => ['Kun ano <strong><u>kadakó</u> an</strong> butones sugad man an kadákó han ohales.'],
     ],
     'Preceding word likely indicates target is referential' => [
-      'm' => 0,
-      'r' => 3,
-      'p' => 0,
+      'score' => [
+        'm' => 0,
+        'r' => 3,
+        'p' => 0,
+      ],
+      'example' => [''],
     ],
     'Preceding word suggests target is referential' => [
-      'm' => 0,
-      'r' => 1,
-      'p' => 0,
-    ],
-    'Pronoun precedes word' => [
-      'm' => 0,
-      'r' => 2,
-      'p' => 0,
-    ],
-    'Word is preceded by "nga"' => [
-      'm' => 0,
-      'r' => 1,
-      'p' => 0,
+      'score' => [
+        'm' => 0,
+        'r' => 1,
+        'p' => 0,
+      ],
+      'example' => ['Waray hunong <strong>an <u>dalagan.</u></strong>'],
     ],
     'Preceding word likely indicates target is modificative' => [
-      'm' => 3,
-      'r' => 0,
-      'p' => 0,
+      'score' => [
+        'm' => 3,
+        'r' => 0,
+        'p' => 0,
+      ],
+      'example' => [''],
     ],
-    'Word begins clause' => [
-      'm' => 0,
-      'r' => 0,
-      'p' => 3,
+    'Target word begins clause' => [
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 3,
+      ],
+      'example' => ['<strong><u>Nagtadong</u></strong> hiya ngan nag-asawa'],
     ],
-    'Word ends clause' => [
-      'm' => 0,
-      'r' => 3,
-      'p' => 0,
+    'Target word ends clause' => [
+      'score' => [
+        'm' => 0,
+        'r' => 3,
+        'p' => 0,
+      ],
+      'example' => ['Dii liwat pwede sumakob it\' <strong><u>táwo</u></strong>'],
     ],
+    'Prefix likely indicates predicative' => [
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 4,
+      ],
+      'example' => ['Nakit-an ko hi Papa Jesus nga <u><strong>gin-</strong>aanak</u> pa la hiya'],
+    ],
+    'Prefix suggests predicative' => [
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 1,
+      ],
+      'example' => ['Didto han tabo ha Palo an ak\' tawgi <u><strong>na</strong>palit</u> mo intawon', '<u><strong>Nag</strong>tadong</u> hiya ngan nag-asawa'],
+    ],
+    'Prefix suggests modificative' => [
+      'score' => [
+        'm' => 1,
+        'r' => 0,
+        'p' => 0,
+      ],
+      'example' => [''],
+    ],
+    'Suffix suggests predicative' => [
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 1,
+      ],
+      'example' => [''],
+    ],
+    'Suffix suggests modificative, less likely referential' => [
+      'score' => [
+        'm' => 2,
+        'r' => 1,
+        'p' => 0,
+      ],
+      'example' => [''],
+    ],
+    'Suffix suggests referential' => [
+      'score' => [
+        'm' => 0,
+        'r' => 1,
+        'p' => 0,
+      ],
+      'example' => ['Waray hunong an <u>dalag<strong>an</strong></u>.'],
+    ],
+  ];
+
+  public static $fillers = [
+    'ano',
+    'gad',
+    'la',
+    'kay',
+    'kun',
+    'ngay-an',
+    'ngayan',
+    'man',
+    'pa',
   ];
 
   public static $highConfidencePredicativePrefix = [
