@@ -33,6 +33,15 @@ if (isset($pos->attributes['id'])) {
   echo '<strong>Location in sentence:</strong> ' . Render::highlight($sentence, $word) . '<br />';
 }
 echo '<br /><br />';
+
+echo '<h2>Reference: Ragging of Verbal predicates</h2>';
+echo '<table class="default">';
+echo '<tr><th>Part of Speech</th><th>Example</th></tr>';
+foreach (Data::$partsOfSpeech as $part => $example) {
+  echo '<tr><td>' . $part . '</td><td>' . $example . '</td></tr>';
+}
+echo '</table>';
+
 echo '<h4>Baseline logic for part of speech algorithm</h4>';
 PartOfSpeechTest::test();
 // die();
@@ -57,11 +66,4 @@ PartOfSpeechTest::test();
 // echo '</table>';
 // echo 'Comprehensivenss: ' . number_format($identified / $total * 100) . '%';
 
-echo '<h2>Parts of Speech Reference</h2>';
-echo '<table class="default">';
-echo '<tr><th>Part of Speech</th><th>Example</th></tr>';
-foreach (Data::$partsOfSpeech as $part => $example) {
-  echo '<tr><td>' . $part . '</td><td>' . $example . '</td></tr>';
-}
-echo '</table>';
 echo '</div>';

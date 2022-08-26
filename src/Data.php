@@ -39,7 +39,7 @@ class Data {
     'tr.ir.inty.(transitive.irrealis.intiretive)' => '-kuhaa, get the entire thing',
     'tr.ir.prd. (transitive.irrealis.predictive)' => '-kuhaon, will get s.t.',
     'intr.irrealis.prd.(intransitive.irrealis.predictive.' => '-makuha, will get.s.t.',
-    'intr.ir.dcd. (transitive.irrealis.decided)' => '-tikuha, will get s.t.',
+    'intr.ir.dcd. (intransitive.irrealis.decided)' => '-tikuha, will get s.t.',
     'tr.r.n. (transitive.realis.neutral)' => '-nakuha, got s.t. (long syllable on ku, naKUha)',
     'intr.r.n.(intransitive.realis.neutral)' => '-nakuha, is getting s.t. (long syllables both first & 2nd, NAKUha)',
     'tr.r.cntrl.(transitive.realis.controlled)' => '-kinuha, got s.t.',
