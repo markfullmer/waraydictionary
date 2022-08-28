@@ -201,6 +201,7 @@ class MorphoSyntaxData {
     'ngayan',
     'man',
     'pa',
+    'ba',
   ];
 
   public static $highConfidencePredicativePrefix = [
