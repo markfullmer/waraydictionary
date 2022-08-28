@@ -11,7 +11,7 @@ require '../vendor/autoload.php';
 require '../variables.php';
 require './includes/head.php';
 
-$word = 'kadakó';
+$word = '';
 $sentence = 'Kun ano kadakó an butones sugad man an kadákó han ohales.';
 if (isset($_REQUEST['word']) && isset($_REQUEST['sentence'])) {
   $word = Data::clean($_REQUEST['word']);
@@ -19,7 +19,7 @@ if (isset($_REQUEST['word']) && isset($_REQUEST['sentence'])) {
 }
 $pos = new SpeechTagger();
 $pos->identify($word, $sentence);
-if (isset($_REQUEST['sentence'])) {
+if (isset($sentence)) {
   $tagged = SpeechTagger::tag($sentence);
 }
 ?>
@@ -35,7 +35,7 @@ if (isset($_REQUEST['sentence'])) {
     if (isset($tagged)) {
       echo Render::tags($tagged);
     }
-    if (isset($_REQUEST['word']) && $_REQUEST['word'] !== '' && isset($pos->attributes['id'])) {
+    if ($word !== '' && isset($pos->attributes['id'])) {
       echo Render::partOfSpeech($pos->attributes);
     }
   ?>

@@ -8,9 +8,9 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use markfullmer\waraydictionary\Db;
 
-die();
+//die();
 
-$csv = Reader::createFromPath('../first-words.csv', 'r');
+$csv = Reader::createFromPath('../top-words.csv', 'r');
 $csv->setEnclosure('"');
 $csv->setHeaderOffset(0); //set the CSV header offset
 
@@ -25,13 +25,13 @@ $speech = [
   'adjective' => 'modifier',
 ];
 
-$db = Db::connect();
-//Our SQL statement. This will empty / truncate the table "videos"
-$sql = "TRUNCATE TABLE `word`";
-//Prepare the SQL query.
-$statement = $db->prepare($sql);
-//Execute the statement.
-$statement->execute();
+// $db = Db::connect();
+// //Our SQL statement. This will empty / truncate the table "videos"
+// $sql = "TRUNCATE TABLE `word`";
+// //Prepare the SQL query.
+// $statement = $db->prepare($sql);
+// //Execute the statement.
+// $statement->execute();
 
 function mb_ucfirst($string) {
   return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
@@ -59,6 +59,10 @@ $processed = [];
 $records = $stmt->process($csv);
 $preppers = ['one_def', 'two_def', 'one_ex', 'two_ex'];
 foreach ($records as $record) {
+  if ($in_dict = Db::search($record['word'])) {
+    print_r('Already in dictionary:'. $record['word']);
+    continue;
+  }
   if (in_array($record['word'], $processed)) {
     continue;
   }
