@@ -41,7 +41,7 @@ if (isset($sentence)) {
   ?>
   <br />
   <br />
-  <h3>Reference: Ragging of Verbal predicates</h3>
+  <h3>Reference: Tagging of Verbal predicates</h3>
   <table class="default">
     <tr>
       <th>Part of Speech</th>
