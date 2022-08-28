@@ -8,7 +8,7 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use markfullmer\waraydictionary\Db;
 
-//die();
+die();
 
 $csv = Reader::createFromPath('../top-words.csv', 'r');
 $csv->setEnclosure('"');
