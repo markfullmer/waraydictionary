@@ -8,9 +8,9 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use markfullmer\waraydictionary\Db;
 
-// die();
+die();
 
-$csv = Reader::createFromPath('../full-modified.csv', 'r');
+$csv = Reader::createFromPath('../first-words.csv', 'r');
 $csv->setEnclosure('"');
 $csv->setHeaderOffset(0); //set the CSV header offset
 

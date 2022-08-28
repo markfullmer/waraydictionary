@@ -22,6 +22,23 @@ class SpeechTagger {
     'rules' => [],
   ];
 
+  public static function tag($sentence) {
+    $tagged = [];
+    $tokens = self::tokenize($sentence, FALSE);
+    foreach ($tokens as $token) {
+      $pos = new SpeechTagger();
+      $pos->identify($token, $sentence);
+      if ($pos->attributes['id'] === '?') {
+        $dict = Db::getPosByWord($token);
+        if ($dict) {
+          $pos->attributes['id'] = $dict;
+        }
+      }
+      $tagged[] = [$token, $pos->attributes['id']];
+    }
+    return $tagged;
+  }
+
   public function identify($word, $sentence, $recur = TRUE) {
     $clause = self::getClause($word, $sentence);
     // Words of 3 characters or less are unreliable. Skip.
@@ -259,7 +276,7 @@ class SpeechTagger {
   /**
    * Split on word boundaries.
    */
-  public static function tokenize($string) {
+  public static function tokenize($string, $remove_fillers = TRUE) {
     // Remove URLs.
     $regex = "@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@";
     $string = preg_replace($regex, ' ', $string);
@@ -276,7 +293,7 @@ class SpeechTagger {
         }
       }
       $token = mb_strtolower(trim($token, $strip_chars));
-      if (in_array($token, MorphoSyntaxData::$fillers) && $token !== end($tokens)) {
+      if ($remove_fillers && in_array($token, MorphoSyntaxData::$fillers) && $token !== end($tokens)) {
         continue;
       }
       if ($token) {

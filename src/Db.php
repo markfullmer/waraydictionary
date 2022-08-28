@@ -121,7 +121,7 @@ class Db {
     $stmt = $db->prepare("SELECT * FROM word WHERE BINARY word=:string");
     $stmt->execute(['string' => $clean]);
     $row = $stmt->fetch();
-    if ($row['root'] === '') {
+    if (!$row || !$row['root']) {
       return FALSE;
     }
     $stmt = $db->prepare("SELECT * FROM word WHERE NOT BINARY word=:string AND `root`=:root");

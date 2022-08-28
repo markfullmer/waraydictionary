@@ -19,20 +19,25 @@ if (isset($_REQUEST['word']) && isset($_REQUEST['sentence'])) {
 }
 $pos = new SpeechTagger();
 $pos->identify($word, $sentence);
+if (isset($_REQUEST['sentence'])) {
+  $tagged = SpeechTagger::tag($sentence);
+}
 ?>
 <div class="container">
   <h2>Part of Speech Identifier</h2>
   <form action="./parts-of-speech.php" method="post">
-    Target word: <input type="text" id="search" name="word" value="<?php echo $word; ?>" placeholder="Target word" /><br>
-    Sentence<br />
+    Sentence to be tagged<br />
     <textarea name="sentence"><?php echo $sentence; ?></textarea>
+    Target word (optional): <input type="text" id="search" name="word" value="<?php echo $word; ?>" placeholder="Target word" /><br>
     <input type="submit" name="search" value="Analyze">
   </form>
   <?php
-  if (isset($pos->attributes['id'])) {
-    echo Render::partOfSpeech($pos->attributes);
-    echo '<strong>Location in sentence:</strong> ' . Render::highlight($sentence, $word) . '<br />';
-  }
+    if (isset($tagged)) {
+      echo Render::tags($tagged);
+    }
+    if (isset($_REQUEST['word']) && $_REQUEST['word'] !== '' && isset($pos->attributes['id'])) {
+      echo Render::partOfSpeech($pos->attributes);
+    }
   ?>
   <br />
   <br />

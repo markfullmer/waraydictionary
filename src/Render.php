@@ -130,6 +130,30 @@ class Render {
     return implode($output);
   }
 
+  public static function getPosLong($pos) {
+    switch ($pos) {
+      case 'p':
+        return 'predicative';
+      case 'm':
+        return 'modificative';
+      case 'r':
+        return 'referential';
+      default:
+        return $pos;
+    }
+  }
+
+  public static function tags($tagged) {
+    $output = [];
+    $output[] = '<table class="default"><tr>';
+    foreach ($tagged as $data) {
+      $pos = self::getPosLong($data[1]);
+      $output[] = '<td style="text-align:center;"><strong>' . $data[0] . '</strong><br />' . $pos . '</td>';
+    }
+    $output[] = '</tr></table>';
+    return implode('', $output);
+  }
+
   /**
    * Highlight a word in context.
    */

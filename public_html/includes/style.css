@@ -172,7 +172,6 @@ aside h2 {
 
 #search {
   margin: 2% 2% 2% 0;
-  width: 75%;
   height: 30px;
   font-size: 1.3em;
   font-weight: 400;
@@ -287,15 +286,6 @@ a.skip-nav:focus {
   font-weight: 700;
   color: white;
 }
-
-.default tr:first-child td:first-child {
-  border-width: 0px 0px 1px 0px;
-}
-
-.default tr:first-child td:last-child {
-  border-width: 0px 0px 1px 1px;
-}
-
 
 .labels {
   color: red;
