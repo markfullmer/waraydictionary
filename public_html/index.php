@@ -50,6 +50,7 @@ if (isset($_REQUEST['word'])) {
       ?>
     </div>
   </div>
+  <div class="row">
   <h2>List of Words</h1>
 
     <?php
@@ -91,4 +92,5 @@ if (isset($_REQUEST['word'])) {
     echo implode($glossary);
     ?>
 
+</div>
 </div>

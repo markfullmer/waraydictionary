@@ -1,3 +1,5 @@
 <IfModule mod_headers.c>
 Header set Cache-Control "private"
 </IfModule>
+
+Redirect 301 "/parts-of-speech.php" "/tagger/"

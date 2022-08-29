@@ -7,9 +7,9 @@ use markfullmer\waraydictionary\Render;
     </form>
     <h1><a href="./index.php">3NS Corpora Project Dictionary</a></h1>
     <ul>
-      <li class="active"><a href="./index.php">Home</a></li>
+      <li class="active"><a href="/">Home</a></li>
       <li><a href="https://corporaproject.org/index.php?type=article&amp;id=1">About</a></li>
-      <li><a href="./parts-of-speech.php">Parts of Speech</a></li>
+      <li><a href="/tagger/">Parts of Speech</a></li>
       <li><a href="https://corporaproject.org/index.php?type=article&amp;id=3">Contact</a></li>
       <li><a href="https://corporaproject.org/index.php?type=article&amp;id=8">Help</a></li>
 

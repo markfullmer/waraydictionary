@@ -2,6 +2,13 @@ html {
   font: 400 1.1em "Open Sans", sans serif;
 }
 
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 200;
+}
+
 body {
   margin: 0 auto;
   line-height: 1.2em;
@@ -19,7 +26,7 @@ nav {
 nav h1 {
   font-size: 1.5em;
   padding-bottom: .5%;
-  font-weight: 100;
+  font-weight: 400;
 }
 
 nav li {
@@ -58,41 +65,46 @@ select option {
 input:hover,
 button:hover,
 select:hover {
-  color: white;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #660000), color-stop(1, #660000));
-  background: -moz-linear-gradient(center top, #660000 5%, #660000 100%);
+  cursor: pointer;
 }
+
 a {
   color: #aa4400;
 }
+
 nav a {
   text-decoration: none;
   color: white;
   background: #660000;
-  font-weight: 400;
   padding: 1px 3px 0px 3px;
 }
+
 nav a:hover {
   color: #e8e8e8;
 }
+
 nav ul li a:hover {
   background: white;
   color: #660000;
   border-radius: 5px 5px 0 0;
 }
+
 nav ul li .dropdown {
   display: block;
 }
+
 nav ul li ul a {
   display: block;
   background: white;
   color: #660000;
 }
+
 nav ul li ul a:hover {
   display: block;
   background: #e8e8e8;
   color: #660000;
 }
+
 nav ul li:hover>ul,
 nav ul li:focus>ul {
   display: block;
@@ -102,21 +114,26 @@ nav ul li:focus>ul {
   padding: .3em;
   border: 1px solid #b8b8b8;
 }
+
 nav ul li:hover>ul li,
 nav ul li:focus>ul li {
   display: block;
 }
+
 nav ul li ul li:hover {
   background: #e8e8e8;
 }
+
 nav form {
   float: right;
 }
+
 aside,
 footer {
   padding: 1%;
   float: left;
 }
+
 article {
   background: white;
   line-height: 1.3em;
@@ -125,31 +142,33 @@ article {
   float: left;
   margin: 2% 1% 0% 4%;
 }
+
 footer {
   font-size: 0.8em;
   display: block;
   clear: both;
 }
+
 #copyright {
   padding: 5px;
 }
+
 #copyright img {
   width: 100px;
   height: 100px;
 }
+
 article header p {
   font-size: 0.8em;
 }
+
 article header {
   margin-bottom: 1%;
   background: #e8e8e8;
 }
-article header h2,
-aside h2 {
-  font-weight: 700;
-}
 
-.highlight, u {
+.highlight,
+u {
   background-color: inherit;
   text-decoration: underline;
   text-decoration-color: red;
@@ -172,16 +191,6 @@ aside h2 {
 
 #search {
   margin: 2% 2% 2% 0;
-  height: 30px;
-  font-size: 1.3em;
-  font-weight: 400;
-}
-
-.code-box {
-  font: 0.7em 'Source Code Pro', sans-serif;
-  color: blue;
-  font-weight: 400;
-  margin: 1%;
 }
 
 .spaced-box {
@@ -204,7 +213,9 @@ aside h2 {
 .blurb-box {
   color: #505050;
   padding: 1rem;
-  margin: 1rem 0 1rem 0;
+  margin: 1rem 1rem 1rem 1rem;
+  margin: auto;
+  max-width: 600px;
 }
 
 .message {
@@ -214,18 +225,14 @@ aside h2 {
 }
 
 .default {
-  margin: 0px;
   padding: 0px;
-  width: 100%;
   border: 1px solid #b8b8b8;
   font-size: 0.9em;
 }
 
-.default table {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
+table {
+  width: fit-content;
+  margin: auto;
 }
 
 .default tr:nth-child(odd) {
@@ -287,24 +294,10 @@ a.skip-nav:focus {
   color: white;
 }
 
-.labels {
-  color: red;
-  font-size: 18pt;
-  background-color: lightgray;
-  padding: 5px;
-  border: 1px solid gray;
-  opacity: .8;
-}
-
 form label {
   display: block;
 }
-form input, form textarea {
-  margin-bottom: 1rem;
-}
-form input {
-  margin-left: 1rem;
-}
+
 form textarea {
   width: 100%;
 }
@@ -317,4 +310,9 @@ form details {
 
 .intransigent {
   display: none;
+}
+
+.container .row {
+  max-width: 800px;
+  margin: auto;
 }

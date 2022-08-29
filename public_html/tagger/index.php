@@ -7,9 +7,9 @@ use markfullmer\waraydictionary\SpeechTagger;
 use markfullmer\waraydictionary\tests\PartOfSpeechTest;
 use markfullmer\waraydictionary\MorphoSyntaxData;
 
-require '../vendor/autoload.php';
-require '../variables.php';
-require './includes/head.php';
+require '../../vendor/autoload.php';
+require '../../variables.php';
+require './../includes/head.php';
 
 $word = '';
 $sentence = 'Kun ano kadakó an butones sugad man an kadákó han ohales.';
@@ -24,21 +24,27 @@ if (isset($sentence)) {
 }
 ?>
 <div class="container">
-  <h2>Part of Speech Identifier</h2>
-  <form action="./parts-of-speech.php" method="post">
-    Sentence to be tagged<br />
-    <textarea name="sentence"><?php echo $sentence; ?></textarea>
-    Target word (optional): <input type="text" id="search" name="word" value="<?php echo $word; ?>" placeholder="Target word" /><br>
-    <input type="submit" name="search" value="Analyze">
-  </form>
+  <div class="row">
+    <h2>Part of Speech Identifer</h2>
+    <p><a href="/tagger#about">About</a> | <a href="https://github.com/markfullmer/waraydictionary">Source code</a>
+    <form action="/tagger/index.php" method="post"></p>
+      Sentence to be tagged<br />
+      <textarea name="sentence"><?php echo $sentence; ?></textarea>
+      <input type="text" id="search" name="word" value="<?php echo $word; ?>" placeholder="Target word (optional)" /><br>
+      <input type="submit" name="search" value="Analyze">
+    </form>
+  </div>
   <?php
-    if (isset($tagged)) {
-      echo Render::tags($tagged);
-    }
-    if ($word !== '' && isset($pos->attributes['id'])) {
-      echo Render::partOfSpeech($pos->attributes);
-    }
+  if (isset($tagged)) {
+    echo Render::tags($tagged);
+  }
+  if ($word !== '' && isset($pos->attributes['id'])) {
+    echo '<div class="row">';
+    echo Render::partOfSpeech($pos->attributes);
+    echo '</div>';
+  }
   ?>
+  <div class="row">
   <br />
   <br />
   <h3>Reference: Tagging of Verbal predicates</h3>
@@ -55,8 +61,8 @@ if (isset($sentence)) {
     ?>
     <br />
     <br />
-    <h3>Methodology of the Waray Part of Speech Identifier</h3>
-    <p>This algorithm is based on principles outlined by Voltaire Oyzon in "A Corpus-based study of the morphosyntactic functions of Waray substantive lexical items" (2020). It uses a dictionary of known syntax (location in clause) and morphology (prefix, suffix) patterns in the Waray language to evaluate 23 rules, outlined below. It then applies a scoring system to estimate the probability of predicate (verb), referential (noun), or modificative (adjective) of the target word.</p>
+    <h3 id="about">Methodology of the Waray Part of Speech Identifier</h3>
+    <p>This algorithm is based on principles outlined by Voltaire Oyzon in "A Corpus-based study of the morphosyntactic functions of Waray substantive lexical items" (2020). It uses a dictionary of known syntax (location in clause) and morphology (prefix, suffix) patterns in the Waray language to evaluate 23 rules (below). It then applies a scoring system to estimate the probability of predicate (verb), referential (noun), or modificative (adjective) of the target word.</p>
 
     <p>Common modifiers (e.g., "la," "pa,", "gad", "ngay-an") are often inserted between substantive words that would indicate part of speech. Therefore, the algorithm ignores these when evaluating syntax. For example, it will parse "gin-aanak pa la hiya" as "gin-aanak hiya," and can identify that a pronoun ("hiya") is following the word "gin-aanak".</p>
 
@@ -69,7 +75,7 @@ if (isset($sentence)) {
     <p>A future planned enhancement is to add corpus similarity comparison to the algorithm: if a sample sentence can be found in the corpus that demonstrates sufficient similarlity (e.g., the adjacent words in the sample sentence are the same as in the evaluated sentence), the dictionary's part of speech can be calculated into the probability.</p>
 
     <p>A caveat about part of speech tagging algorithms: they cannot be 100% accurate. To give just one example from English, in the sentence "Working late into the night is draining," the word "working" functions as a referential. However, if the same clause is located in "Working late into the night, Mark was drained," now "working" functions as a predicative.</p>
-
+  </div>
     <?php
 
     echo '<table class="default"><tr><th>Rule</th><th>Example (target word is underlined)</th><th>Weight</th></tr>';
