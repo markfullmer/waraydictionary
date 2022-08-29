@@ -53,6 +53,31 @@ class Db {
     return FALSE;
   }
 
+  public static function getAllPos() {
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT * FROM pos ORDER BY pos");
+    $stmt->execute();
+    $rows = $stmt->fetchAll();
+    if (isset($rows)) {
+      return $rows;
+    }
+    return FALSE;
+  }
+
+  public static function deletePos(int $id) {
+    $db = self::connect();
+    $sql = "DELETE FROM pos WHERE id=?";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$id]);
+  }
+
+  public static function insertPos($pos) {
+    $db = self::connect();
+    $sql = "INSERT INTO pos (pos) VALUES (?)";
+    $db->prepare($sql)->execute([$pos]);
+    return $db->lastInsertId();
+  }
+
   public static function deleteWord(int $id) {
     $db = self::connect();
     $sql = "DELETE FROM word WHERE id=?";

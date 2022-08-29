@@ -2,6 +2,7 @@
 session_start();
 
 use markfullmer\waraydictionary\Data;
+use markfullmer\waraydictionary\Db;
 use markfullmer\waraydictionary\Render;
 use markfullmer\waraydictionary\SpeechTagger;
 use markfullmer\waraydictionary\tests\PartOfSpeechTest;
@@ -27,6 +28,11 @@ if (isset($sentence)) {
   <div class="row">
     <h2>Part of Speech Identifer</h2>
     <p><a href="/tagger#about">About</a> | <a href="https://github.com/markfullmer/waraydictionary">Source code</a>
+<?php
+    if (Db::isAuthenticated()) {
+      echo '| <a href="/tagger/edit.php?id=add">Edit part of speech list</a>';
+    }
+?>
     <form action="/tagger/index.php" method="post"></p>
       Sentence to be tagged<br />
       <textarea name="sentence"><?php echo $sentence; ?></textarea>

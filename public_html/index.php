@@ -38,14 +38,16 @@ if (isset($_REQUEST['word'])) {
         <input type="text" id="search" name="word" value="<?php echo $search; ?>" placeholder="Search for a word"><br>
         <input type="submit" name="search" value="Find">
       </form>
-      <?php echo $message; ?>
-      </form>
+
       <?php
       if (isset($match['word'])) {
         echo Render::entry($match);
       }
       if (!empty($cognates)) {
         echo 'Words with same root: ' . Render::cognates($cognates);
+      }
+      if (Db::isAuthenticated()) {
+        echo '<h5><a href="/edit.php?id=add">Add new word</a></h5>';
       }
       ?>
     </div>
@@ -54,9 +56,6 @@ if (isset($_REQUEST['word'])) {
   <h2>List of Words</h1>
 
     <?php
-    if (Db::isAuthenticated()) {
-      echo '<h6><a href="/edit.php?id=add">Add new word</a></h6>';
-    }
     $letter = 'A';
     $sort = 'word';
     if (isset($_REQUEST['sort']) && $_REQUEST['sort'] === 'count') {

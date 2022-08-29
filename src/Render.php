@@ -186,12 +186,12 @@ class Render {
    */
   public static function getPosOptions(string $selected) {
     $output = '<option value="">--Select--</option>';
-    foreach (array_keys(Data::$pos) as $label) {
-      $output .= '<option value="' . $label . '"';
-      if ($label === $selected) {
+    foreach (Db::getAllPos() as $pos) {
+      $output .= '<option value="' . $pos['pos'] . '"';
+      if ($pos['pos'] === $selected) {
         $output .= ' selected="selected"';
       }
-      $output .= '>' . $label . '</option>';
+      $output .= '>' . $pos['pos'] . '</option>';
     }
     return $output;
   }
