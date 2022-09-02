@@ -155,7 +155,7 @@ class MorphoSyntaxData {
         'r' => 0,
         'p' => 1,
       ],
-      'example' => ['Didto han tabo ha Palo an ak\' tawgi <u><strong>na</strong>palit</u> mo intawon', '<u><strong>Nag</strong>tadong</u> hiya ngan nag-asawa'],
+      'example' => ['Didto han tabo ha Palo an ak\' tawgi <u><strong>na</strong>palit</u> mo intawon.', '<u><strong>Nag</strong>tadong</u> hiya ngan nag-asawa'],
     ],
     'Prefix suggests modificative' => [
       'score' => [
@@ -188,6 +188,30 @@ class MorphoSyntaxData {
         'p' => 0,
       ],
       'example' => ['Waray hunong an <u>dalag<strong>an</strong></u>.'],
+    ],
+    'Lexical similarity suggests referential' => [
+      'score' => [
+        'm' => 0,
+        'r' => 1,
+        'p' => 0,
+      ],
+      'example' => [''],
+    ],
+    'Lexical similarity suggests modificative' => [
+      'score' => [
+        'm' => 1,
+        'r' => 0,
+        'p' => 0,
+      ],
+      'example' => [''],
+    ],
+    'Lexical similarity suggests predicative' => [
+      'score' => [
+        'm' => 0,
+        'r' => 0,
+        'p' => 1,
+      ],
+      'example' => [''],
     ],
   ];
 

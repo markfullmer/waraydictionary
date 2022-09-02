@@ -12,6 +12,9 @@ require '../../vendor/autoload.php';
 require '../../variables.php';
 require './../includes/head.php';
 
+// SpeechTagger::getWordsWithPos();
+// die();
+
 $word = '';
 $sentence = 'Kun ano kadakó an butones sugad man an kadákó han ohales.';
 if (isset($_REQUEST['word']) && isset($_REQUEST['sentence'])) {
@@ -49,6 +52,7 @@ if (isset($sentence)) {
     echo Render::partOfSpeech($pos->attributes);
     echo '</div>';
   }
+  die();
   ?>
   <div class="row">
   <br />

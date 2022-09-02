@@ -11,6 +11,37 @@ use markfullmer\waraydictionary\MorphoSyntaxData;
  */
 class SpeechTagger {
 
+  public static function getWordsWithPos() {
+    $db = Db::connect();
+    $stmt = $db->prepare("SELECT * FROM word WHERE one_pos <> '' AND one_ex <> ''");
+    $stmt->execute();
+    $rows = $stmt->fetchAll();
+    $counter = 0;
+    foreach ($rows as $row) {
+      $clause = self::getClause($row['word'], $row['one_ex']);
+      $tokens = self::tokenize($clause);
+      $inc = 0;
+      foreach ($tokens as $token) {
+        if ($token == $row['word']) {
+          $prev = $inc - 1;
+          $next = $inc + 1;
+          if (isset($tokens[$prev]) && isset($tokens[$next])) {
+            $sql = "UPDATE word SET pos_prev=:pre, pos_next=:nex WHERE id =:id";
+            $db->prepare($sql)->execute([
+              'pre' => $tokens[$prev],
+              'nex' => $tokens[$next],
+              'id' => $row['id'],
+            ]);
+            $counter++;
+          }
+          break;
+        }
+        $inc++;
+      }
+    }
+    return FALSE;
+  }
+
   public array $attributes = [
     'id' => '?',
     'count' => [
@@ -39,6 +70,44 @@ class SpeechTagger {
     return $tagged;
   }
 
+  public function checkCorpusForPos($word, $sentence) {
+    $db = Db::connect();
+    $tokens = self::tokenize($sentence);
+    $inc = 0;
+    foreach ($tokens as $token) {
+      if ($token == $word) {
+        $prev = $inc - 1;
+        $next = $inc + 1;
+        if (isset($tokens[$prev]) && isset($tokens[$next])) {
+          $sql = "SELECT * FROM word WHERE pos_prev=:pre AND pos_next=:nex";
+          $stmt = $db->prepare($sql);
+          $stmt->execute([
+            'pre' => $tokens[$prev],
+            'nex' => $tokens[$next],
+          ]);
+          $row = $stmt->fetch();
+          if (isset($row['one_pos'])) {
+            switch ($row['one_pos']) {
+              case 'predicative':
+                $this->attributes['rules'][] = "Lexical similarity suggests predicative";
+                break;
+              case 'modificative':
+                $this->attributes['rules'][] = "Lexical similarity suggests modificative";
+                break;
+              case 'referential':
+                $this->attributes['rules'][] = "Lexical similarity suggests referential";
+                break;
+              default:
+                return;
+            }
+          }
+        }
+        break;
+      }
+      $inc++;
+    }
+  }
+
   public function identify($word, $sentence, $recur = TRUE) {
     $clause = self::getClause($word, $sentence);
     // Words of 3 characters or less are unreliable. Skip.
@@ -55,6 +124,7 @@ class SpeechTagger {
       $this->evaluateAdjacentPos($word, $clause, 'precedes');
       $this->evaluateAdjacentPos($word, $clause, 'follows');
     }
+    // $this->checkCorpusForPos($word, $clause);
     $this->applyScoring();
   }
 
