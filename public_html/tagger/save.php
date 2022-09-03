@@ -12,7 +12,7 @@ if (!Db::isAuthenticated()) {
 }
 
 if ($_POST['pos'] !== '') {
-  $result = Db::insertPos($_POST['pos']);
+  $result = Db::insertPos($_POST['pos'], $_POST['short']);
 }
 
 header('Location: /tagger/edit.php?update=1');

@@ -7,32 +7,6 @@ namespace markfullmer\waraydictionary;
  */
 class Data {
 
-  public static $pos = [
-    'reference' => 'r',
-    'modificative' => 'm',
-    'predicative' => 'p',
-    'bitr.r.del.' => 'p',
-    'bitr.r.spnt.' => 'p',
-    'int.ir.ctrl.' => 'p',
-    'int.r.ntrl.impf.' => 'p',
-    'int.ir.dcd.' => 'p',
-    'int.r.ctrl.' => 'p',
-    'intr.irrealis.prd.' => 'p',
-    'intr.ir.dcd.' => 'p',
-    'intr.r.n.' => 'p',
-    'tr.ir.' => 'p',
-    'tr.ir.imp.' => 'p',
-    'tr.ir.imp.apl.' => 'p',
-    'tr.ir.inty.' => 'p',
-    'tr.ir.prd.' => 'p',
-    'tr.ir.prt.' => 'p',
-    'tr.r.' => 'p',
-    'tr.r.n.' => 'p',
-    'tr.r.del.' => 'p',
-    'tr.r.cntrl.' => 'p',
-    'numeral' => 'r',
-  ];
-
   public static $partsOfSpeech = [
     'tr.ir.imp.(transitive.irrealis.imperative)' => '-kuha, get (some thing)',
     'tr.ir.prt. (transitive.irrealis.partitive)' => '-kuhai, get some',
@@ -52,16 +26,6 @@ class Data {
   public static function clean($string) {
     $string = (string) $string;
     return strip_tags($string);
-  }
-
-  /**
-   * Get available parts of speech
-   */
-  public static function getPosShort($long) {
-    if (isset(self::$pos[$long])) {
-      return self::$pos[$long];
-    }
-    return $long;
   }
 
 }

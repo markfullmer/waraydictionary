@@ -161,7 +161,7 @@ class SpeechTagger {
     }
 
     if ($adjacentPos = Db::getPosByWord($adjacent)) {
-      $pos = Data::getPosShort($adjacentPos);
+      $pos = Db::getPosShort($adjacentPos);
       if ($pos === 'p') {
         $this->attributes['rules'][] = 'Predicative ' . $position . ' target word';
       }

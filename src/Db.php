@@ -71,10 +71,10 @@ class Db {
     $stmt->execute([$id]);
   }
 
-  public static function insertPos($pos) {
+  public static function insertPos($pos, $short) {
     $db = self::connect();
-    $sql = "INSERT INTO pos (pos) VALUES (?)";
-    $db->prepare($sql)->execute([$pos]);
+    $sql = "INSERT INTO pos (pos,short) VALUES (?,?)";
+    $db->prepare($sql)->execute([$pos, $short]);
     return $db->lastInsertId();
   }
 
@@ -83,6 +83,20 @@ class Db {
     $sql = "DELETE FROM word WHERE id=?";
     $stmt = $db->prepare($sql);
     $stmt->execute([$id]);
+  }
+
+  /**
+   * Get available parts of speech
+   */
+  public static function getPosShort($long) {
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT short FROM pos WHERE BINARY pos=:string");
+    $stmt->execute(['string' => $long]);
+    $row = $stmt->fetch();
+    if (!empty($row['short'])) {
+      return $row['short'];
+    }
+    return $long;
   }
 
   public static function getPosByWord(string $word) {
