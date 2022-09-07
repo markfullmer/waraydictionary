@@ -88,12 +88,15 @@ class Db {
   /**
    * Get available parts of speech
    */
-  public static function getPosShort($long) {
+  public static function getPos($long) {
     $db = self::connect();
-    $stmt = $db->prepare("SELECT short FROM pos WHERE BINARY pos=:string");
+    $stmt = $db->prepare("SELECT * FROM pos WHERE BINARY pos=:string");
     $stmt->execute(['string' => $long]);
     $row = $stmt->fetch();
     if (!empty($row['short'])) {
+      if ($row['short'] === 'p' && $row['pos'] !== 'predicative') {
+        return $row['short'] . ', ' . $long;
+      }
       return $row['short'];
     }
     return $long;

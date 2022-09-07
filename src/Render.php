@@ -67,18 +67,19 @@ class Render {
       $output[] = '[' . $row['pronunciation'] . ']';
     }
     if (!empty($row['one_pos'])) {
+      $one_pos = Db::getPos($row['one_pos']);
       if (!empty($row['two_pos'])) {
-        $output[] = '<strong><1' . Db::getPosShort($row['one_pos']) . '></strong>';
+        $output[] = '<strong>&lt;1' . $one_pos . '&gt;</strong>';
       }
       else {
-        $output[] = '<strong>&lt;' . $row['one_pos'] . '&gt;</strong>';
+        $output[] = '<strong>&lt;' . $one_pos . '&gt;</strong>';
       }
     }
     if (!empty($row['two_pos'])) {
-      $output[] = '<strong><2' . Db::getPosShort($row['two_pos']) . '></strong>';
+      $output[] = '<strong><2' . Db::getPos($row['two_pos']) . '></strong>';
     }
     if (!empty($row['three_pos'])) {
-      $output[] = '<strong><3' . Db::getPosShort($row['three_pos']) . '></strong>';
+      $output[] = '<strong><3' . Db::getPos($row['three_pos']) . '></strong>';
     }
     if (!empty($row['one_def']) && empty($row['two_def'])) {
       $output[] = '<em>' . $row['one_def'] . '</em>';
