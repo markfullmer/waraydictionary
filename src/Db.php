@@ -71,12 +71,25 @@ class Db {
     $stmt->execute([$id]);
   }
 
-  public static function insertPos($pos, $short) {
+  public static function insertPos($pos, $short, $tooltip) {
     $db = self::connect();
-    $sql = "INSERT INTO pos (pos,short) VALUES (?,?)";
-    $db->prepare($sql)->execute([$pos, $short]);
+    $sql = "INSERT INTO pos (pos,short, tooltip) VALUES (?,?, ?)";
+    $db->prepare($sql)->execute([$pos, $short, $tooltip]);
     return $db->lastInsertId();
   }
+
+  public static function updatePos($id, $pos, $short, $tooltip) {
+    $db = self::connect();
+    $sql = "UPDATE pos SET pos=:pos,short=:short, tooltip=:tooltip WHERE id=:id";
+    $db->prepare($sql)->execute([
+      'pos' => $pos, 
+      'short' => $short,
+      'tooltip' => $tooltip,
+      'id' => $id,
+    ]);
+    return $db->lastInsertId();
+  }
+
 
   public static function deleteWord(int $id) {
     $db = self::connect();
@@ -95,11 +108,32 @@ class Db {
     $row = $stmt->fetch();
     if (!empty($row['short'])) {
       if ($row['short'] === 'p' && $row['pos'] !== 'predicative') {
-        return $row['short'] . ', ' . $long;
+        $output = $row['short'] . ', ' . $long;
       }
-      return $row['short'];
+      else {
+        // Modificative or Referential.
+        $output = $row['short'];
+      }
     }
-    return $long;
+    else {
+      $output = $long;
+    }
+    if (!empty($row['tooltip'])) {
+      // Add tooltip if present.
+      $output = '<span tooltip="' . $row['tooltip'] . '">' . $output . ' &#9432;</span>';
+    }
+    return $output;
+  }
+
+  public static function getPosById(int $id) {
+    $db = self::connect();
+    $stmt = $db->prepare("SELECT * FROM pos WHERE BINARY id=:ident");
+    $stmt->execute(['ident' => $id]);
+    $row = $stmt->fetch();
+    if (isset($row)) {
+      return $row;
+    }
+    return FALSE;
   }
 
   public static function getPosByWord(string $word) {
