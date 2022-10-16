@@ -18,8 +18,7 @@ if (isset($_REQUEST['id'])) {
     $id = (int) $_REQUEST['id'];
     $type = 'Edit';
     $word = Db::getWord($id);
-  }
-  else {
+  } else {
     $id = 'add';
     $type = 'Add';
     foreach (Db::$keys as $key) {
@@ -38,7 +37,9 @@ if (isset($_REQUEST['id'])) {
       }
       ?>
       <h1><?php echo $type; ?> word <em><?php echo $word['word']; ?></em></h1>
-      Pronunciation marks: ʔ Á á É é Í í Ó ó Ú ú
+      Pronunciation marks: ʔ Á Â À á â à É Ê È é ê è Í Î Ì í î ì Ó Ô Ò ó ô ò Ú Û Ù ú û ù
+
+
       <form method="post" action="save.php">
         <input type="hidden" name="id" value="<?php echo $id; ?>" />
         <label>Word*<input type="text" name="word" value="<?php echo $word['word']; ?>" required /></label>
