@@ -21,7 +21,7 @@ class Data {
     'tr.r.del.(transitive.realis.deliberate)' => '-ginkuha, got s.t.',
   ];
 
-  public static $glossary = ['A', 'Á', 'B', 'C', 'D', 'E', 'É', 'F', 'G', 'H', 'I', 'Í', 'J', 'K', 'L', 'M', 'N', 'O', 'Ó', 'P', 'R', 'S', 'T', 'U', 'Ú', 'V', 'W', 'X', 'Y'];
+  public static $glossary = ['A', 'Â', 'Á', 'À', 'B', 'C', 'D', 'E', 'É', 'Ê', 'È', 'F', 'G', 'H', 'I', 'Í', 'Î', 'Ì', 'J', 'K', 'L', 'M', 'N', 'O', 'Ó', 'Ô', 'Ò', 'P', 'R', 'S', 'T', 'U', 'Ú', 'Û', 'Ù', 'V', 'W', 'X', 'Y'];
 
   public static function clean($string) {
     $string = (string) $string;
