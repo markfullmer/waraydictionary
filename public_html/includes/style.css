@@ -1,5 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
 html {
-  font: 400 1.1em "Open Sans", sans serif;
+  font: 400 1.1em "Lato", sans serif;
 }
 
 h2,
