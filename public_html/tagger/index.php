@@ -94,8 +94,8 @@ if (isset($sentence)) {
     }
     echo '</table>';
 
-    echo '<h4>Baseline tests for part of speech algorithm</h4>';
-    PartOfSpeechTest::test();
+    // echo '<h4>Baseline tests for part of speech algorithm</h4>';
+    // PartOfSpeechTest::test();
     // die();
     // $uncategorized = Db::getUncategorized(100);
     // $identified = 0;
